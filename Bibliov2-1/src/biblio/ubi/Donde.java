@@ -9,6 +9,9 @@ public abstract class Donde {
 	public Donde(String nombre) {
 		this.nombre = nombre;
 	}
+	public Donde() {
+		this.nombre = "";
+	}
 
 	// METODOS
 	public abstract String detalle();
