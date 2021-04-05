@@ -2,6 +2,7 @@ package biblio.obra;
 
 import java.util.ArrayList;
 
+import biblio.autor.Autor;
 import biblio.colec.Coleccion;
 import biblio.colec.Saga;
 import biblio.ubi.Balda;
