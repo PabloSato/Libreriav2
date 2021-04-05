@@ -187,9 +187,9 @@ public class MetodosDelete {
 	}
 
 	// ------------------------------------------------------------------ESTANTERIA2
-	public void delValda(Connection con, Estanteria st) {
+	public void delBalda(Connection con, Estanteria st) {
 
-		String sql = "DELETE FROM valda WHERE estanteria = '" + st.getNombre() + "' AND valda = ?";
+		String sql = "DELETE FROM balda WHERE estanteria = '" + st.getNombre() + "' AND balda = ?";
 		System.out.println("Escribe la valda que quieres borrar");
 		int numero = Integer.parseInt(scan.nextLine());
 
@@ -206,7 +206,7 @@ public class MetodosDelete {
 			System.out.println(e.getMessage());
 			return;
 		}
-		System.out.println("Se ha borrado la valda");
+		System.out.println("Se ha borrado la balda");
 
 	}
 
