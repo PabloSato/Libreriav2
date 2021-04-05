@@ -1,21 +1,28 @@
 package biblio.colec;
 
 public abstract class Compilacion {
-	
-	//PROPIEDADES
+
+	// PROPIEDADES
 	private String nombre;
-	
-	//CONSTRUCTOR
+
+	// CONSTRUCTOR
 	public Compilacion(String nombre) {
 		this.nombre = nombre;
 	}
-	//METODOS
+
+	public Compilacion() {
+		this.nombre = "";
+	}
+
+	// METODOS
 	public abstract String detalle();
+
 	@Override
 	public String toString() {
 		return "Compilacion [nombre=" + nombre + "]";
 	}
-	//GETTER Y SETTER
+
+	// GETTER Y SETTER
 	public String getNombre() {
 		return nombre;
 	}
@@ -23,5 +30,5 @@ public abstract class Compilacion {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	
+
 }
