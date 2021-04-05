@@ -26,6 +26,12 @@ public class Estanteria extends Donde {
 		return "";// desarrollar
 	}
 
+	@Override
+	public String toString() {
+		return "Estanteria [baldas=" + baldas + "]";
+	}
+
+
 	// GETTER Y SETTER
 	public ArrayList<Balda> getBaldas() {
 		return baldas;
