@@ -10,6 +10,7 @@ import biblio.autor.Autor;
 import biblio.autor.Escritor;
 import biblio.colec.Coleccion;
 import biblio.colec.Saga;
+import biblio.obra.Libro;
 import biblio.ubi.Balda;
 import biblio.ubi.Estanteria;
 import biblio.ubi.Ubicacion;
@@ -17,10 +18,10 @@ import biblio.ubi.Ubicacion;
 public class MetodosCheck {
 
 	private static Scanner scan = new Scanner(System.in);
-	
-	//CONSTRUCTOR
+
+	// CONSTRUCTOR
 	public MetodosCheck() {
-		
+
 	}
 
 	// METODOS CHECK
@@ -60,6 +61,64 @@ public class MetodosCheck {
 			System.out.println(e1.getMessage());
 			return;
 		}
+
+	}
+
+	// ------------------------------------------------------------------LIBRO2
+	public Libro checkBook(Connection con, String nombre) {
+
+		String titulo = "", coleccion = "", saga = "", genero = "", idioma = "", ubicacion = "", estanteria = "";
+		String autor = "";
+		boolean leido = false;
+		int paginas = 0, balda = 0, id = 0, tomo;
+
+		String auto = "";
+		Libro libro = null;
+		Autor aut = null;
+		Coleccion col = null;
+		Saga sag = null;
+		Ubicacion ub = null;
+		Estanteria st = null;
+		Balda bald = null;
+		try {
+			Statement sentencia = con.createStatement();
+			ResultSet rs = sentencia.executeQuery("SELECT * FROM libro WHERE titulo LIKE '%" + nombre + "%'");
+
+			while (rs.next()) {
+				id = rs.getInt("indice");
+				titulo = rs.getString("titulo");
+				autor = rs.getString("autor");
+				coleccion = rs.getString("coleccion");
+				saga = rs.getString("saga");
+				tomo = rs.getInt("tomo");
+				genero = rs.getString("genero");
+				paginas = rs.getInt("paginas");
+				idioma = rs.getString("idioma");
+				leido = rs.getBoolean("leido");
+				ubicacion = rs.getString("ubicacion");
+				estanteria = rs.getString("estanteria");
+				balda = rs.getInt("valda");
+
+				col = checkCol(con, coleccion);
+				sag = checkSaga(con, col, saga);
+				ub = checkUbic(con, ubicacion);
+				st = checkStante(con, ub, estanteria);
+				bald = checkValda(con, st, balda);
+
+				//aut = checkLibroAut(con, titulo);
+
+				//libro = new Libro(titulo, paginas, genero, idioma, leido, id, aut, col, sag, tomo, ub, st, bald);
+
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Error al mostrar la busqueda");
+			System.out.println(e.getMessage());
+		} catch (Exception e1) {
+			System.out.println("Valores no Validos");
+			System.out.println(e1.getMessage());
+		}
+		return libro;
 
 	}
 
