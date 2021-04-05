@@ -11,6 +11,11 @@ import biblio.ubi.Ubicacion;
 
 public class MetodosVer {
 
+	// CONSTRUCTOR
+	public MetodosVer() {
+
+	}
+
 	// METODOS VER
 	// ------------------------------------------------------------------LIBRO
 	public void verLibro(Connection con) {
