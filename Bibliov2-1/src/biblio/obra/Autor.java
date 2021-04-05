@@ -9,7 +9,6 @@ public abstract class Autor {
 	private String apellidos;
 	private String alias;
 	private String bio;
-	private ArrayList<Libro> libros;
 
 	// CONSTRUCTOR
 	public Autor(String nombre, String apellidos, String alias, String bio) {
@@ -17,7 +16,6 @@ public abstract class Autor {
 		this.apellidos = apellidos;
 		this.alias = alias;
 		this.bio = bio;
-		this.libros = new ArrayList<Libro>();
 
 	}
 
@@ -26,14 +24,12 @@ public abstract class Autor {
 		this.apellidos = "-";
 		this.alias = "VVAA";
 		this.bio = "";
-		this.libros = new ArrayList<Libro>();
 	}
 	//METODOS
 	public abstract String consulta();
 	@Override
 	public String toString() {
-		return "Autor [nombre=" + nombre + ", apellidos=" + apellidos + ", alias=" + alias + ", bio=" + bio
-				+ ", libros=" + libros + "]";
+		return "Autor [nombre=" + nombre + ", apellidos=" + apellidos + ", alias=" + alias + ", bio=" + bio+"]";
 	}
 
 	// GETTER Y SETTER
@@ -69,12 +65,5 @@ public abstract class Autor {
 		this.bio = bio;
 	}
 
-	public ArrayList<Libro> getLibros() {
-		return libros;
-	}
-
-	public void setLibros(ArrayList<Libro> libros) {
-		this.libros = libros;
-	}
 
 }
