@@ -1,4 +1,4 @@
-package biblio.obra;
+package biblio.autor;
 
 import java.util.ArrayList;
 

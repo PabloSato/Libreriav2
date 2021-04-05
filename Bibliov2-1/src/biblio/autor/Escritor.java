@@ -1,6 +1,8 @@
-package biblio.obra;
+package biblio.autor;
 
 import java.util.ArrayList;
+
+import biblio.obra.Libro;
 
 public class Escritor extends Autor {
 
