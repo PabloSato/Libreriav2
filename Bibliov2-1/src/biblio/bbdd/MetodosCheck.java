@@ -7,7 +7,6 @@ import java.sql.Statement;
 import java.util.Scanner;
 
 import biblio.autor.Autor;
-import biblio.autor.Escritor;
 import biblio.colec.Coleccion;
 import biblio.colec.Saga;
 import biblio.obra.Libro;
@@ -191,7 +190,7 @@ public class MetodosCheck {
 				System.out.print(") ");
 				System.out.println();
 
-				autor = new Escritor(name, apellidos, alias, bio);
+				autor = new Autor(name, apellidos, alias, bio);
 			}
 
 		} catch (SQLException e) {

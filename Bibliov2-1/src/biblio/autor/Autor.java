@@ -2,7 +2,7 @@ package biblio.autor;
 
 import java.util.ArrayList;
 
-public abstract class Autor {
+public class Autor {
 
 	// PROPIEDADES
 	private String nombre;
@@ -26,7 +26,9 @@ public abstract class Autor {
 		this.bio = "";
 	}
 	//METODOS
-	public abstract String consulta();
+	public String consulta() {
+		return this.alias;
+	};
 	@Override
 	public String toString() {
 		return "Autor [nombre=" + nombre + ", apellidos=" + apellidos + ", alias=" + alias + ", bio=" + bio+"]";
