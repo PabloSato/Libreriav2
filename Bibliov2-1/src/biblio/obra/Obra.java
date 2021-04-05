@@ -3,6 +3,7 @@ package biblio.obra;
 public abstract class Obra {
 
 	// PROPIEDADES
+	private int id;
 	private String titulo;
 	private int paginas;
 	private String genero;
@@ -10,7 +11,8 @@ public abstract class Obra {
 	private boolean leido;
 
 	// CONSTRUCTOR
-	public Obra(String titulo, int paginas, String genero, String idioma, boolean leido) {
+	public Obra(int id, String titulo, int paginas, String genero, String idioma, boolean leido) {
+		this.id = id;
 		this.titulo = titulo;
 		this.paginas = paginas;
 		this.genero = genero;
@@ -19,6 +21,7 @@ public abstract class Obra {
 	}
 
 	public Obra() {
+		this.id = 0;
 		this.titulo = "";
 		this.paginas = 0;
 		this.genero = "";
@@ -31,11 +34,19 @@ public abstract class Obra {
 
 	@Override
 	public String toString() {
-		return "Obra [titulo=" + titulo + ", paginas=" + paginas + ", genero=" + genero + ", idioma=" + idioma
-				+ ", leido=" + leido + "]";
+		return "Obra [id=" + id + ", titulo=" + titulo + ", paginas=" + paginas + ", genero=" + genero + ", idioma="
+				+ idioma + ", leido=" + leido + "]";
 	}
 
 	// GETTER Y SETTER
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public String getTitulo() {
 		return titulo;
 	}
