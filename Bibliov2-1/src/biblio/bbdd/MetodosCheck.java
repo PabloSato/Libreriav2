@@ -23,7 +23,21 @@ public class MetodosCheck {
 	public MetodosCheck() {
 
 	}
-
+	
+	
+	
+	
+	
+	//                              NO FIN!!!!!
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	// METODOS CHECK
 	// ------------------------------------------------------------------LIBRO
 	public void checkBook(Connection con) {
