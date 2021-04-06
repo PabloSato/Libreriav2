@@ -27,8 +27,6 @@ public class MetodosAdd {
 
 	}
 
-	// NO FIN!!!!!
-
 	// METODOS ADD
 	// ------------------------------------------------------------------LIBRO
 	public Libro addLibro(Connection con) {
@@ -528,7 +526,8 @@ public class MetodosAdd {
 			} while (flag != true);
 			// -....................................LEIDO-OUT
 			// -....................................ID-IN
-			id = op.verLibroCount(con);
+			String tabla = "libro";
+			id = op.contar(con, tabla) + 1;
 			// -....................................ID-OUT
 
 			// -....................................CREACION-IN
@@ -554,6 +553,18 @@ public class MetodosAdd {
 			// -....................................CREACION-OUT
 			// -....................................BBDD-IN
 			addBook(con, libro);
+			if (colec != false) {
+				if (sag != false) {
+					addTomSag(con, saga, tomoSag, libro);
+				} else {
+
+					addTomCol(con, col, libro, tomoCol);
+				}
+			}
+			addToBalda(con, balda, libro);
+			if(comic != false) {
+				addComic(con, autor, dibuja, libro);
+			}
 			// -....................................BBDD-OUT
 		} while (flag != true);
 		return libro;
@@ -792,7 +803,7 @@ public class MetodosAdd {
 	// ------------------------------------------------------------------COLECCION
 	public Coleccion addCol(Connection con) {
 		Coleccion colec = null;
-		String nombre = "", siNo = "", min = "", si = "";
+		String nombre = "";
 		boolean flag = false;
 
 		do {
@@ -937,20 +948,50 @@ public class MetodosAdd {
 	}
 
 	// ------------------------------------------------------------------TOMO-COL
-	private void addTomCol(Connection con, Coleccion col, Tomo tomo) {
+	private void addTomCol(Connection con, Coleccion col, Libro libro, Tomo tomo) {
+		String sql = "INSERT INTO colec_volumen(coleccion, libro, numuero) VALUES(?, ?, ?)";
 
+		PreparedStatement sentencia;
+		int af;
+		try {
+			sentencia = con.prepareStatement(sql);
+			sentencia.setString(1, col.getNombre());
+			sentencia.setString(2, libro.getTitulo());
+			sentencia.setInt(3, tomo.getNumero());
+			af = sentencia.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("Error al insertar en tabla col_volumen");
+			System.out.println(e.getMessage());
+			return;
+		}
+		System.out.println("Se ha añadido " + af + " a la tabla");
 	}
 
 	// ------------------------------------------------------------------TOMO-SAG
-	private void addTomSag(Connection con, Coleccion col, Saga saga, Tomo tomo) {
+	private void addTomSag(Connection con, Saga saga, Tomo tomo, Libro libro) {
+		String sql = "INSERT INTO saga_volumen(saga, libro, numuero) VALUES(?, ?, ?)";
 
+		PreparedStatement sentencia;
+		int af;
+		try {
+			sentencia = con.prepareStatement(sql);
+			sentencia.setString(1, saga.getNombre());
+			sentencia.setString(2, libro.getTitulo());
+			sentencia.setInt(3, tomo.getNumero());
+			af = sentencia.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("Error al insertar en tabla saga_volumen");
+			System.out.println(e.getMessage());
+			return;
+		}
+		System.out.println("Se ha añadido " + af + " a la tabla");
 	}
 
 	// ------------------------------------------------------------------UBI
 	public Ubicacion addUbic(Connection con) {
 		Ubicacion ub = null;
 		Estanteria st = null;
-		String donde = "", siNo = "", min = "";
+		String donde = "";
 		int valdas = 0;
 		boolean flag = false;
 
@@ -1079,7 +1120,7 @@ public class MetodosAdd {
 
 	// ------------------------------------------------------------------BALDA
 	private void addBalda(Connection con, Estanteria st, Balda bald) {
-		String sql = "INSERT INTO valda(numero, estanteria)" + " VALUES(?, ?)";
+		String sql = "INSERT INTO balda(numero, estanteria)" + " VALUES(?, ?)";
 
 		PreparedStatement sentencia;
 		int af;
@@ -1094,8 +1135,54 @@ public class MetodosAdd {
 			System.out.println(e.getMessage());
 			return;
 		}
-		System.out.println("Se ha añadido " + af + " valdas");
+		System.out.println("Se ha añadido " + af + " baldas");
 
+	}
+
+	// ------------------------------------------------------------------BALDA
+	private void addToBalda(Connection con, Balda balda, Libro libro) {
+		String tabla = "libro_balda";
+		String sql = "INSERT INTO libro_balda(id, balda, libro) VALUES(?, ?, ?)";
+		int id = op.contar(con, tabla) + 1;
+
+		PreparedStatement sentencia;
+		int af;
+		try {
+			sentencia = con.prepareStatement(sql);
+			sentencia.setInt(1, id);
+			sentencia.setInt(2, balda.getNumero());
+			sentencia.setString(3, libro.getTitulo());
+			af = sentencia.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("Error al insertar Libro");
+			System.out.println(e.getMessage());
+			return;
+		}
+		System.out.println("Se ha añadido " + af + " Libros a las baldas");
+	}
+
+	// ------------------------------------------------------------------COMIC
+	private void addComic(Connection con, Autor autor, Dibujante dibu, Libro libro) {
+		String tabla = "libro_escritor_dibujante";
+		int id = op.contar(con, tabla);
+		String sql = "INSERT INTO libro_escritor_dibujante(id, libro, autor, dibujante) VALUES(?, ?, ?, ?)";
+		
+		PreparedStatement sentencia;
+		int af;
+		try {
+			sentencia = con.prepareStatement(sql);
+			sentencia.setInt(1, id);
+			sentencia.setString(2, libro.getTitulo());
+			sentencia.setString(3, autor.getAlias());
+			sentencia.setString(4, dibu.getAlias());
+			af = sentencia.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("Error al insertar Libro");
+			System.out.println(e.getMessage());
+			return;
+		}
+
+		System.out.println("Se ha añadido " + af + " Comics");
 	}
 
 }

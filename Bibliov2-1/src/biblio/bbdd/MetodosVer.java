@@ -227,11 +227,11 @@ public class MetodosVer {
 	}
 
 	// ---------------------------------------------------------------------BALDA
-	public void verValda(Connection con, Estanteria st) {
+	public void verBalda(Connection con, Estanteria st) {
 
 		try {
 			Statement sentencia = con.createStatement();
-			ResultSet rs = sentencia.executeQuery("SELECT * FROM valda WHERE estanteria = '" + st.getNombre() + "'");
+			ResultSet rs = sentencia.executeQuery("SELECT * FROM balda WHERE estanteria = '" + st.getNombre() + "'");
 
 			while (rs.next()) {
 				System.out.print("Estanteria ");

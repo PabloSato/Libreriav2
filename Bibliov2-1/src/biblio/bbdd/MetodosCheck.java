@@ -25,8 +25,6 @@ public class MetodosCheck {
 
 	}
 
-	// NO FIN!!!!!
-
 	// METODOS CHECK
 	// ------------------------------------------------------------------LIBRO
 	public void checkBook(Connection con) {
@@ -467,31 +465,33 @@ public class MetodosCheck {
 		}
 		return;
 	}
-	// ------------------------------------------------------------------TOMO2-COLECCION
-		public Tomo checkTomoSag(Connection con, Saga col, int numero) {
-			Tomo tomo = null;
-			String saga = "", titulo = "";
-			int num = -1;
-			try {
-				Statement sentencia = con.createStatement();
-				ResultSet rs = sentencia.executeQuery("SELECT * FROM saga_volumen WHERE numero = " + numero
-						+ "AND coleccion = '" + col.getNombre() + "'");
-				while (rs.next()) {
-					saga = rs.getString("coleccion");
-					titulo = rs.getString("titulo");
-					num = rs.getInt("numero");
 
-					tomo = new Tomo(num);
-				}
-			} catch (SQLException e) {
-				System.out.println("Error al mostrar la busqueda");
-				System.out.println(e.getMessage());
-			} catch (Exception e1) {
-				System.out.println("Valores no Validos");
-				System.out.println(e1.getMessage());
+	// ------------------------------------------------------------------TOMO2-COLECCION
+	public Tomo checkTomoSag(Connection con, Saga col, int numero) {
+		Tomo tomo = null;
+		String saga = "", titulo = "";
+		int num = -1;
+		try {
+			Statement sentencia = con.createStatement();
+			ResultSet rs = sentencia.executeQuery("SELECT * FROM saga_volumen WHERE numero = " + numero
+					+ "AND coleccion = '" + col.getNombre() + "'");
+			while (rs.next()) {
+				saga = rs.getString("coleccion");
+				titulo = rs.getString("titulo");
+				num = rs.getInt("numero");
+
+				tomo = new Tomo(num);
 			}
-			return tomo;
+		} catch (SQLException e) {
+			System.out.println("Error al mostrar la busqueda");
+			System.out.println(e.getMessage());
+		} catch (Exception e1) {
+			System.out.println("Valores no Validos");
+			System.out.println(e1.getMessage());
 		}
+		return tomo;
+	}
+
 	// ------------------------------------------------------------------UBIC
 	public void checkUbic(Connection con) {
 
