@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import biblio.autor.Autor;
 import biblio.colec.Coleccion;
 import biblio.colec.Saga;
+import biblio.colec.Tomo;
 import biblio.ubi.Balda;
 import biblio.ubi.Estanteria;
 import biblio.ubi.Ubicacion;
@@ -16,18 +17,20 @@ public class Libro extends Obra {
 	private ArrayList<Autor> autores;
 	private Coleccion coleccion;
 	private Saga saga;
+	private Tomo tomo;
 	private Ubicacion ubicacion;
 	private Estanteria estanteria;
 	private Balda balda;
 
 	// CONSTRUCTOR
 	public Libro(int id, String titulo, int paginas, String genero, String idioma, boolean leido,
-			ArrayList<Autor> autores, Coleccion coleccion, Saga saga, Ubicacion ubicacion, Estanteria estanteria,
-			Balda balda) {
+			ArrayList<Autor> autores, Coleccion coleccion, Saga saga, Tomo tomo, Ubicacion ubicacion,
+			Estanteria estanteria, Balda balda) {
 		super(id, titulo, paginas, genero, idioma, leido);
 		this.autores = autores;
 		this.coleccion = coleccion;
 		this.saga = saga;
+		this.tomo = tomo;
 		this.ubicacion = ubicacion;
 		this.estanteria = estanteria;
 		this.balda = balda;
@@ -41,8 +44,8 @@ public class Libro extends Obra {
 
 	@Override
 	public String toString() {
-		return "Libro [id=" + id + ", autores=" + autores + ", coleccion=" + coleccion + ", saga=" + saga
-				+ ", ubicacion=" + ubicacion + ", estanteria=" + estanteria + ", balda=" + balda + "]";
+		return "Libro [id=" + id + ", autores=" + autores + ", coleccion=" + coleccion + ", saga=" + saga + ", tomo="
+				+ tomo + ", ubicacion=" + ubicacion + ", estanteria=" + estanteria + ", balda=" + balda + "]";
 	}
 
 	// GETTER Y SETTER
@@ -76,6 +79,14 @@ public class Libro extends Obra {
 
 	public void setSaga(Saga saga) {
 		this.saga = saga;
+	}
+
+	public Tomo getTomo() {
+		return tomo;
+	}
+
+	public void setTomo(Tomo tomo) {
+		this.tomo = tomo;
 	}
 
 	public Ubicacion getUbicacion() {

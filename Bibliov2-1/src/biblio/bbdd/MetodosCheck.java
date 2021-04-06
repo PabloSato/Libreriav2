@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.Scanner;
 
 import biblio.autor.Autor;
+import biblio.autor.Dibujante;
 import biblio.colec.Coleccion;
 import biblio.colec.Saga;
 import biblio.obra.Libro;
@@ -202,6 +203,73 @@ public class MetodosCheck {
 		}
 		return autor;
 	}
+	// ------------------------------------------------------------------DIBUJANTE
+		public void checkDibuj(Connection con) {
+
+			try {
+				System.out.println("Escribe el alias del dibujante que buscas");
+				String nombre = scan.nextLine();
+
+				Statement sentencia = con.createStatement();
+				ResultSet rs = sentencia.executeQuery("SELECT * FROM dibujante WHERE alias LIKE '%" + nombre + "%'");
+
+				while (rs.next()) {
+					System.out.print(rs.getString("nombre"));
+					System.out.print(" ");
+					System.out.print(rs.getString("apellidos"));
+					System.out.print(" (");
+					System.out.print(rs.getString("alias"));
+					System.out.print(") ");
+					System.out.println();
+				}
+
+			} catch (SQLException e) {
+				System.out.println("Error al mostrar la busqueda");
+				System.out.println(e.getMessage());
+				return;
+			} catch (Exception e1) {
+				System.out.println("Valores no Validos");
+				System.out.println(e1.getMessage());
+				return;
+			}
+
+		}
+
+		// ------REPASARA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Q PASA CON DIBUJANTE!!
+		// ------------------------------------------------------------------DIBUJANTE2
+		public Dibujante checkDibuj(Connection con, String nombre) {
+			String name = "", apellidos = "", alias = "", bio = "";
+			Dibujante dibu = null;
+			try {
+				Statement sentencia = con.createStatement();
+				ResultSet rs = sentencia.executeQuery("SELECT * FROM dibujante WHERE alias LIKE '%" + nombre + "%'");
+
+				while (rs.next()) {
+					System.out.print(rs.getString("nombre"));
+					name = rs.getString("nombre");
+					System.out.print(" ");
+					System.out.print(rs.getString("apellidos"));
+					apellidos = rs.getString("apellidos");
+					System.out.print(" (");
+					System.out.print(rs.getString("alias"));
+					alias = rs.getString("alias");
+					bio = rs.getString("bio");
+
+					System.out.print(") ");
+					System.out.println();
+
+					dibu = new Dibujante(name, apellidos, alias, bio);
+				}
+
+			} catch (SQLException e) {
+				System.out.println("Error al mostrar la busqueda");
+				System.out.println(e.getMessage());
+			} catch (Exception e1) {
+				System.out.println("Valores no Validos");
+				System.out.println(e1.getMessage());
+			}
+			return dibu;
+		}
 
 	// ------------------------------------------------------------------COLECCION
 	public void checkCol(Connection con) {
