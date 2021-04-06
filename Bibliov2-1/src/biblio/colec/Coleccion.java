@@ -14,6 +14,9 @@ public class Coleccion extends Compilacion{
 		this.sagas = new ArrayList<Saga>();
 		this.tomos = new ArrayList<Tomo>();
 	}
+	public Coleccion() {
+		super();
+	}
 	//METODOS
 	@Override
 	public String detalle() {

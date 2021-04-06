@@ -1,28 +1,27 @@
 package biblio.colec;
 
-import biblio.obra.Libro;
+public class Tomo extends Compilacion {
 
-public class Tomo extends Compilacion{
-	
-	//PROPIEDADES
+	// PROPIEDADES
 	private int numero;
-	private Libro libro;
-	
-	//CONSTRUCTOR
-	public Tomo(int numero, Libro libro) {
+
+	// CONSTRUCTOR
+	public Tomo(int numero) {
 		this.numero = numero;
-		this.libro = libro;
 	}
-	//METODOS
+
+	// METODOS
 	@Override
 	public String detalle() {
-		return " - "+this.numero;
+		return " - " + this.numero;
 	}
+
 	@Override
 	public String toString() {
-		return "Tomo [numero=" + numero + ", libro=" + libro + "]";
+		return "Tomo [numero=" + numero + "]";
 	}
-	//GETTER Y SETTER
+
+	// GETTER Y SETTER
 	public int getNumero() {
 		return numero;
 	}
@@ -30,15 +29,5 @@ public class Tomo extends Compilacion{
 	public void setNumero(int numero) {
 		this.numero = numero;
 	}
-
-	public Libro getLibro() {
-		return libro;
-	}
-
-	public void setLibro(Libro libro) {
-		this.libro = libro;
-	}
-	
-	
 
 }

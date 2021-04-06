@@ -18,6 +18,7 @@ public class MetodosAdd {
 
 	private static Scanner scan = new Scanner(System.in);
 	private static MetodosCheck check = new MetodosCheck();
+	private static OpBbdd op = new OpBbdd();
 
 	// CONSTRUCTOR
 	public MetodosAdd() {
@@ -40,9 +41,10 @@ public class MetodosAdd {
 		Balda balda = null;
 		ArrayList<Autor> autores = new ArrayList<Autor>();
 
-		int id = 0, paginas = 0;
+		int id = 0, paginas = 0, tom = -1, bald = 0;
 		String titulo = "", genero = "", idioma = "", alias = "";
-		String aliasD = "", siNo = "", min = "";
+		String aliasD = "", siNo = "", min = "", clc = "", sg = "";
+		String donde = "", stant = "";
 		boolean flag = false, leido = false, masAut = false;
 		boolean comic = false, colec = false, sag = false;
 
@@ -117,6 +119,7 @@ public class MetodosAdd {
 			if (aut != null) {
 				System.out.println("Ya tenemos el autor: " + aut.getAlias());
 				autor = aut;
+				autores.add(aut);
 			} else {
 
 				System.out.println("No tenemos ese autor");
@@ -174,17 +177,19 @@ public class MetodosAdd {
 			if (dibu != null) {
 				System.out.println("Ya tenemos el autor: " + dibu.getAlias());
 				dibuja = dibu;
+				autores.add(dibuja);
 			} else {
 
 				System.out.println("No tenemos ese autor");
 				autor = addDibujante(con);// añadimos a la bbdd
+				autores.add(dibuja);
 			}
 
 		}
 		// -....................................COLEC-IN
 		do {
 			try {
-				System.out.println("¿Es un Comic?(Si/No)");
+				System.out.println("¿El libro pertenece a alguna Coleccion?(Si/No)");
 				siNo = scan.nextLine();
 				min = siNo.toLowerCase().trim();
 				if (min.equals("")) {
@@ -208,12 +213,294 @@ public class MetodosAdd {
 				flag = false;
 			}
 		} while (flag != true);
+		if (colec != false) {
+			do {
+				try {
+					System.out.println("Introduce el Nombre de la Coleccion:");
+					clc = scan.nextLine();
+					if (clc.equals("")) {
+						System.out.println("¡No te Olvides del Nombre!");
+						flag = false;
+					} else {
+						flag = true;
+					}
+				} catch (Exception e) {
+					System.out.println("Valores no aceptados");
+					System.out.println(e.toString());
+					flag = false;
+				}
+			} while (flag != true);
+
+			col = check.checkCol(con, clc);
+
+			if (col != null) {
+				System.out.println("Ya tenemos la Coleccion " + col.getNombre());
+			} else {
+				System.out.println("Aun no tenemos esa coleccion");
+				col = addCol(con);
+			}
+		}
 		// -....................................COLEC-OUT
+
 		// -....................................SAGA-IN
+		if (colec != false) {
+			do {
+				try {
+					System.out.println("¿El libro pertenece a alguna Saga?(Si/No)");
+					siNo = scan.nextLine();
+					min = siNo.toLowerCase().trim();
+					if (min.equals("")) {
+						System.out.println("Conteste si o no");
+						flag = false;
+					} else {
+						if (min.equals("si")) {
+							sag = true;
+							flag = true;
+						} else if (min.equals("no")) {
+							sag = false;
+							flag = true;
+						} else {
+							System.out.println("Conteste si o no");
+							flag = false;
+						}
+					}
+				} catch (Exception e) {
+					System.out.println("Valores no aceptados");
+					System.out.println(e.toString());
+					flag = false;
+				}
+			} while (flag != true);
+			if (sag != false) {
+				do {
+					try {
+						System.out.println("Introduce el Nombre de la Coleccion:");
+						sg = scan.nextLine();
+						if (sg.equals("")) {
+							System.out.println("¡No te Olvides del Nombre!");
+							flag = false;
+						} else {
+							flag = true;
+						}
+					} catch (Exception e) {
+						System.out.println("Valores no aceptados");
+						System.out.println(e.toString());
+						flag = false;
+					}
+				} while (flag != true);
+
+				saga = check.checkSaga(con, col, sg);
+
+				if (saga != null) {
+					System.out.println("Ya tenemos la saga " + saga.getNombre());
+				} else {
+					System.out.println("Aun no tenemos esa saga");
+					saga = addSaga(con, col);
+				}
+			}
+		}
 		// -....................................SAGA-OUT
 		// -....................................TOMO-IN
+//		if (colec != false) {
+//			
+//			tomo = check.checkTomo(con, colec);
+//			if(tomo != null) {
+//				System.out.println("¡Ya tenemos ese número de tomo!");
+//				
+//			}else {
+//
+//				tomo = addTomo(con);	
+//			}
+//		}
 		// -....................................TOMO-OUT
-		// -....................................DIBUJA-IN
+		// -....................................GENERO-IN
+		do {
+			try {
+				System.out.println("Introduce Género Literario:");
+				genero = scan.nextLine();
+				if (genero.equals("")) {
+					System.out.println("¡No te olvides del Genero!");
+					flag = false;
+				} else {
+					flag = true;
+				}
+			} catch (Exception e) {
+				System.out.println("Valores no aceptados");
+				System.out.println(e.toString());
+				flag = false;
+			}
+		} while (flag != true);
+		// -....................................GENERO-OUT
+		// -....................................IDIOMA-IN
+		do {
+			try {
+				System.out.println("¿En qué idioma está?");
+				idioma = scan.nextLine();
+				if (idioma.equals("")) {
+					flag = false;
+				} else {
+					flag = true;
+				}
+			} catch (Exception e) {
+				System.out.println("Valores no aceptados");
+				System.out.println(e.toString());
+				flag = false;
+			}
+		} while (flag != true);
+		// -....................................IDIOMA-OUT
+		// -....................................PAGINAS-IN
+		do {
+			try {
+				System.out.println("¿Cuantas páginas tiene?");
+				paginas = Integer.parseInt(scan.nextLine());
+				if (paginas > 0) {
+					flag = true;
+				} else {
+					flag = false;
+				}
+			} catch (Exception e) {
+				System.out.println("Valores no aceptados");
+				System.out.println(e.toString());
+				flag = false;
+			}
+		} while (flag != true);
+		// -....................................PAGINAS-OUT
+		// -....................................UBICACION-IN
+		do {
+			System.out.println("¿Dónde está?");
+			do {
+				try {
+					System.out.println("Introduce donde:");
+					donde = scan.nextLine();
+					if (donde.equals("")) {
+						flag = false;
+					} else {
+						flag = true;
+					}
+				} catch (Exception e) {
+					System.out.println("Valores no aceptados");
+					System.out.println(e.toString());
+					flag = false;
+				}
+			} while (flag != true);
+		} while (flag != true);
+
+		ub = check.checkUbic(con, donde);
+
+		if (ub != null) {
+			System.out.println("Ubicacion " + ub.getNombre());
+		} else {
+			System.out.println("Aún no tenemos esa ubicación");
+			ub = addUbic(con);
+		}
+		// -....................................UBIACION-OUT
+		// -....................................ESTANTERIA-IN
+		do {
+			System.out.println("¿En qué Estantería está el libro?");
+			do {
+				try {
+					System.out.println("Introduce la Estanteria");
+					stant = scan.nextLine();
+					if (stant.equals("")) {
+						System.out.println("¡No te olvides de la Estanteria!");
+						flag = false;
+					} else {
+						flag = true;
+					}
+				} catch (Exception e) {
+					System.out.println("Valores no aceptados");
+					System.out.println(e.toString());
+					flag = false;
+				}
+			} while (flag != true);
+		} while (flag != true);
+
+		st = check.checkStante(con, ub, stant);
+
+		if (st != null) {
+			System.out.println("Estanteria " + st.getNombre());
+		} else {
+			System.out.println("No tenemos esa estanteria");
+			st = addStant(con, ub);
+		}
+
+		// -....................................ESTANTERIA-OUT
+		// -....................................BALDA-IN
+		do {
+			System.out.println("¿En qué Balda está el libro?");
+			do {
+				try {
+					System.out.println("Introduce el numero de Balda");
+					bald = Integer.parseInt(scan.nextLine());
+					if (bald <= 0) {
+						System.out.println("Introduce valores superiores a 0");
+						flag = false;
+					} else {
+						flag = true;
+					}
+				} catch (Exception e) {
+					System.out.println("Valores no aceptados");
+					System.out.println(e.toString());
+					flag = false;
+				}
+			} while (flag != true);
+		} while (flag != true);
+
+		balda = check.checkBalda(con, st, bald);
+
+		if (balda != null) {
+			System.out.println("Balda " + balda.getNumero());
+		} else {
+			System.out.println("No tenemos esa balda");
+			balda = addBalda(con, st);
+		}
+		// -....................................BALDA-OUT
+		// -....................................LEIDO-IN
+		do {
+			try {
+				System.out.println("¿Te lo has leido ya?");
+				siNo = scan.nextLine();
+				if (siNo.equals("")) {
+					flag = false;
+				} else {
+					min = siNo.toLowerCase();
+
+					if (min.equals("si")) {
+						leido = true;
+						flag = true;
+					} else if (min.equals("no")) {
+						leido = false;
+						flag = true;
+					} else {
+						flag = false;
+					}
+				}
+			} catch (Exception e) {
+				System.out.println("Valores no aceptados");
+				System.out.println(e.toString());
+				flag = false;
+			}
+		} while (flag != true);
+		// -....................................LEIDO-OUT
+		// -....................................ID-IN
+		id = op.verLibroCount(con);
+		// -....................................ID-OUT
+
+		// -....................................CREACION-IN
+		if (colec != false) {
+			if (sag != false) {
+				// TENEMOS SAGA Y COLECCION
+
+			} else {
+				// TENEMOS COLECCION, NO TENEMOS SAGA
+				saga = new Saga();
+			}
+		} else {
+			// NO TENEMOS NI COLECCION NI SAGA
+			col = new Coleccion();
+			saga = new Saga();
+		}
+		libro = new Libro(id, titulo, paginas, genero, idioma, leido, autores, col, saga, tomo, ub, st, balda);
+		// -....................................CREACION-OUT
 
 		return libro;
 	}
@@ -441,7 +728,7 @@ public class MetodosAdd {
 
 	// ------------------------------------------------------------------SAGA
 	// ------------------------------------------------------------------TOMO
-	public Tomo addTomo(Connection con, Libro libro) {
+	public Tomo addTomo(Connection con) {
 		Tomo tomo = null;
 		int numero = -1;
 		boolean flag = false;
@@ -467,7 +754,7 @@ public class MetodosAdd {
 
 		} while (flag != true);
 
-		tomo = new Tomo(numero, libro);
+		tomo = new Tomo(numero);
 
 		return tomo;
 	}

@@ -12,16 +12,23 @@ public class Saga extends Compilacion {
 		super(nombre);
 		this.tomos = new ArrayList<Tomo>();
 	}
-	//METODOS
+
+	public Saga() {
+		super();
+	}
+	// METODOS
+
 	@Override
 	public String detalle() {
-		return super.getNombre()+" ";
+		return super.getNombre() + " ";
 	}
+
 	@Override
 	public String toString() {
 		return "Saga [tomos=" + tomos + "]";
 	}
-	//GETTER Y SETTER
+
+	// GETTER Y SETTER
 	public ArrayList<Tomo> getTomos() {
 		return tomos;
 	}
@@ -29,7 +36,5 @@ public class Saga extends Compilacion {
 	public void setTomos(ArrayList<Tomo> tomos) {
 		this.tomos = tomos;
 	}
-	
-	
-	
+
 }

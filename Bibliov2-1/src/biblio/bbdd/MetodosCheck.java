@@ -10,6 +10,7 @@ import biblio.autor.Autor;
 import biblio.autor.Dibujante;
 import biblio.colec.Coleccion;
 import biblio.colec.Saga;
+import biblio.colec.Tomo;
 import biblio.obra.Libro;
 import biblio.ubi.Balda;
 import biblio.ubi.Estanteria;
@@ -23,21 +24,9 @@ public class MetodosCheck {
 	public MetodosCheck() {
 
 	}
-	
-	
-	
-	
-	
-	//                              NO FIN!!!!!
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+	// NO FIN!!!!!
+
 	// METODOS CHECK
 	// ------------------------------------------------------------------LIBRO
 	public void checkBook(Connection con) {
@@ -117,11 +106,12 @@ public class MetodosCheck {
 				sag = checkSaga(con, col, saga);
 				ub = checkUbic(con, ubicacion);
 				st = checkStante(con, ub, estanteria);
-				bald = checkValda(con, st, balda);
+				bald = checkBalda(con, st, balda);
 
-				//aut = checkLibroAut(con, titulo);
+				// aut = checkLibroAut(con, titulo);
 
-				//libro = new Libro(titulo, paginas, genero, idioma, leido, id, aut, col, sag, tomo, ub, st, bald);
+				// libro = new Libro(titulo, paginas, genero, idioma, leido, id, aut, col, sag,
+				// tomo, ub, st, bald);
 
 			}
 
@@ -203,73 +193,74 @@ public class MetodosCheck {
 		}
 		return autor;
 	}
+
 	// ------------------------------------------------------------------DIBUJANTE
-		public void checkDibuj(Connection con) {
+	public void checkDibuj(Connection con) {
 
-			try {
-				System.out.println("Escribe el alias del dibujante que buscas");
-				String nombre = scan.nextLine();
+		try {
+			System.out.println("Escribe el alias del dibujante que buscas");
+			String nombre = scan.nextLine();
 
-				Statement sentencia = con.createStatement();
-				ResultSet rs = sentencia.executeQuery("SELECT * FROM dibujante WHERE alias LIKE '%" + nombre + "%'");
+			Statement sentencia = con.createStatement();
+			ResultSet rs = sentencia.executeQuery("SELECT * FROM dibujante WHERE alias LIKE '%" + nombre + "%'");
 
-				while (rs.next()) {
-					System.out.print(rs.getString("nombre"));
-					System.out.print(" ");
-					System.out.print(rs.getString("apellidos"));
-					System.out.print(" (");
-					System.out.print(rs.getString("alias"));
-					System.out.print(") ");
-					System.out.println();
-				}
-
-			} catch (SQLException e) {
-				System.out.println("Error al mostrar la busqueda");
-				System.out.println(e.getMessage());
-				return;
-			} catch (Exception e1) {
-				System.out.println("Valores no Validos");
-				System.out.println(e1.getMessage());
-				return;
+			while (rs.next()) {
+				System.out.print(rs.getString("nombre"));
+				System.out.print(" ");
+				System.out.print(rs.getString("apellidos"));
+				System.out.print(" (");
+				System.out.print(rs.getString("alias"));
+				System.out.print(") ");
+				System.out.println();
 			}
 
+		} catch (SQLException e) {
+			System.out.println("Error al mostrar la busqueda");
+			System.out.println(e.getMessage());
+			return;
+		} catch (Exception e1) {
+			System.out.println("Valores no Validos");
+			System.out.println(e1.getMessage());
+			return;
 		}
 
-		// ------REPASARA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Q PASA CON DIBUJANTE!!
-		// ------------------------------------------------------------------DIBUJANTE2
-		public Dibujante checkDibuj(Connection con, String nombre) {
-			String name = "", apellidos = "", alias = "", bio = "";
-			Dibujante dibu = null;
-			try {
-				Statement sentencia = con.createStatement();
-				ResultSet rs = sentencia.executeQuery("SELECT * FROM dibujante WHERE alias LIKE '%" + nombre + "%'");
+	}
 
-				while (rs.next()) {
-					System.out.print(rs.getString("nombre"));
-					name = rs.getString("nombre");
-					System.out.print(" ");
-					System.out.print(rs.getString("apellidos"));
-					apellidos = rs.getString("apellidos");
-					System.out.print(" (");
-					System.out.print(rs.getString("alias"));
-					alias = rs.getString("alias");
-					bio = rs.getString("bio");
+	// ------REPASARA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Q PASA CON DIBUJANTE!!
+	// ------------------------------------------------------------------DIBUJANTE2
+	public Dibujante checkDibuj(Connection con, String nombre) {
+		String name = "", apellidos = "", alias = "", bio = "";
+		Dibujante dibu = null;
+		try {
+			Statement sentencia = con.createStatement();
+			ResultSet rs = sentencia.executeQuery("SELECT * FROM dibujante WHERE alias LIKE '%" + nombre + "%'");
 
-					System.out.print(") ");
-					System.out.println();
+			while (rs.next()) {
+				System.out.print(rs.getString("nombre"));
+				name = rs.getString("nombre");
+				System.out.print(" ");
+				System.out.print(rs.getString("apellidos"));
+				apellidos = rs.getString("apellidos");
+				System.out.print(" (");
+				System.out.print(rs.getString("alias"));
+				alias = rs.getString("alias");
+				bio = rs.getString("bio");
 
-					dibu = new Dibujante(name, apellidos, alias, bio);
-				}
+				System.out.print(") ");
+				System.out.println();
 
-			} catch (SQLException e) {
-				System.out.println("Error al mostrar la busqueda");
-				System.out.println(e.getMessage());
-			} catch (Exception e1) {
-				System.out.println("Valores no Validos");
-				System.out.println(e1.getMessage());
+				dibu = new Dibujante(name, apellidos, alias, bio);
 			}
-			return dibu;
+
+		} catch (SQLException e) {
+			System.out.println("Error al mostrar la busqueda");
+			System.out.println(e.getMessage());
+		} catch (Exception e1) {
+			System.out.println("Valores no Validos");
+			System.out.println(e1.getMessage());
 		}
+		return dibu;
+	}
 
 	// ------------------------------------------------------------------COLECCION
 	public void checkCol(Connection con) {
@@ -389,6 +380,74 @@ public class MetodosCheck {
 		return saga;
 	}
 
+	// ------------------------------------------------------------------TOMO-COL
+	public void checkTomoCol(Connection con, Coleccion col) {
+		int numero = -1;
+		try {
+			System.out.println("Escribe el número del tomo que buscas de la coleccion");
+			numero = Integer.parseInt(scan.nextLine());
+			Statement sentencia = con.createStatement();
+			ResultSet rs = sentencia.executeQuery("SELECT * FROM colec_volumen WHERE numero = " + numero
+					+ "AND coleccion = '" + col.getNombre() + "'");
+
+			while (rs.next()) {
+				System.out.print(rs.getString("coleccion"));
+				System.out.print(" - ");
+				System.out.print(rs.getString("titulo"));
+				System.out.print(" nº");
+				System.out.print(rs.getInt("numero"));
+				System.out.println();
+
+			}
+		} catch (SQLException e) {
+			System.out.println("Error al mostrar la busqueda");
+			System.out.println(e.getMessage());
+			return;
+		} catch (Exception e1) {
+			System.out.println("Valores no Validos");
+			System.out.println(e1.getMessage());
+			return;
+		}
+		return;
+	}
+	// ------------------------------------------------------------------TOMO-COL
+		public void checkTomoSag(Connection con, Saga saga) {
+			int numero = -1;
+			try {
+				System.out.println("Escribe el número del tomo que buscas de la saga");
+				numero = Integer.parseInt(scan.nextLine());
+				Statement sentencia = con.createStatement();
+				ResultSet rs = sentencia.executeQuery("SELECT * FROM saga_volumen WHERE numero = " + numero
+						+ "AND coleccion = '" + saga.getNombre() + "'");
+
+				while (rs.next()) {
+					System.out.print(rs.getString("saga"));
+					System.out.print(" - ");
+					System.out.print(rs.getString("titulo"));
+					System.out.print(" nº");
+					System.out.print(rs.getInt("numero"));
+					System.out.println();
+
+				}
+			} catch (SQLException e) {
+				System.out.println("Error al mostrar la busqueda");
+				System.out.println(e.getMessage());
+				return;
+			} catch (Exception e1) {
+				System.out.println("Valores no Validos");
+				System.out.println(e1.getMessage());
+				return;
+			}
+			return;
+		}
+	// ------------------------------------------------------------------TOMO2
+	public Tomo checkTomo(Connection con, Coleccion col, int numero) {
+		Tomo tomo = null;
+		String colec = "", titulo = ""; 
+
+		return tomo;
+	}
+
 	// ------------------------------------------------------------------UBIC
 	public void checkUbic(Connection con) {
 
@@ -500,13 +559,13 @@ public class MetodosCheck {
 	}
 
 	// ------------------------------------------------------------------BALDA
-	public void checkValda(Connection con, Estanteria st) {
+	public void checkBalda(Connection con, Estanteria st) {
 
 		try {
-			System.out.println("Escribe el numero de la valda que buscas");
+			System.out.println("Escribe el numero de la balda que buscas");
 			int num = Integer.parseInt(scan.nextLine());
 			Statement sentencia = con.createStatement();
-			ResultSet rs = sentencia.executeQuery("SELECT * FROM valda WHERE numero LIKE '%" + num + "%'"
+			ResultSet rs = sentencia.executeQuery("SELECT * FROM balda WHERE numero LIKE '%" + num + "%'"
 					+ " AND estanteria = '" + st.getNombre() + "'");
 
 			while (rs.next()) {
@@ -529,13 +588,13 @@ public class MetodosCheck {
 	}
 
 	// ------------------------------------------------------------------BALDA2
-	public Balda checkValda(Connection con, Estanteria st, int num) {
+	public Balda checkBalda(Connection con, Estanteria st, int num) {
 
 		int balda = 0;
 		Balda b = null;
 		try {
 			Statement sentencia = con.createStatement();
-			ResultSet rs = sentencia.executeQuery("SELECT * FROM valda WHERE numero LIKE '%" + num + "%'"
+			ResultSet rs = sentencia.executeQuery("SELECT * FROM balda WHERE numero LIKE '%" + num + "%'"
 					+ " AND estanteria = '" + st.getNombre() + "'");
 
 			while (rs.next()) {
