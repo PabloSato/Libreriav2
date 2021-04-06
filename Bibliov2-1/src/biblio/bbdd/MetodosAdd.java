@@ -41,8 +41,10 @@ public class MetodosAdd {
 		ArrayList<Autor> autores = new ArrayList<Autor>();
 
 		int id = 0, paginas = 0;
-		String titulo = "", genero = "", idioma = "", alias = "", aliasD = "", siNo = "", min = "";
-		boolean flag = false, leido = false, masAut = false, comic = false;
+		String titulo = "", genero = "", idioma = "", alias = "";
+		String aliasD = "", siNo = "", min = "";
+		boolean flag = false, leido = false, masAut = false;
+		boolean comic = false, colec = false, sag = false;
 
 		// -....................................EMPEZAMOS
 
@@ -177,34 +179,41 @@ public class MetodosAdd {
 				System.out.println("No tenemos ese autor");
 				autor = addDibujante(con);// añadimos a la bbdd
 			}
-			do {
-				try {
-					System.out.println("¿Tiene más autores?(Si/No)");
-					siNo = scan.nextLine();
-					min = siNo.toLowerCase().trim();
-					if (min.equals("")) {
-						System.out.println("¡Conteste si o no!");
-						flag = false;
-					} else {
-						if (min.equals("si")) {
-							masAut = false;
-							flag = true;
-						} else if (min.equals("no")) {
-							masAut = true;
-							flag = true;
-						} else {
-							System.out.println("¡Conteste si o no!");
-							flag = false;
-						}
-					}
-				} catch (Exception e) {
-					System.out.println("Valores no aceptados");
-					System.out.println(e.toString());
-					flag = false;
-				}
-			} while (flag != true);
+
 		}
-		// -....................................DIBUJA-OUT
+		// -....................................COLEC-IN
+		do {
+			try {
+				System.out.println("¿Es un Comic?(Si/No)");
+				siNo = scan.nextLine();
+				min = siNo.toLowerCase().trim();
+				if (min.equals("")) {
+					System.out.println("Conteste si o no");
+					flag = false;
+				} else {
+					if (min.equals("si")) {
+						colec = true;
+						flag = true;
+					} else if (min.equals("no")) {
+						colec = false;
+						flag = true;
+					} else {
+						System.out.println("Conteste si o no");
+						flag = false;
+					}
+				}
+			} catch (Exception e) {
+				System.out.println("Valores no aceptados");
+				System.out.println(e.toString());
+				flag = false;
+			}
+		} while (flag != true);
+		// -....................................COLEC-OUT
+		// -....................................SAGA-IN
+		// -....................................SAGA-OUT
+		// -....................................TOMO-IN
+		// -....................................TOMO-OUT
+		// -....................................DIBUJA-IN
 
 		return libro;
 	}
