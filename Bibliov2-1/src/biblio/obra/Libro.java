@@ -17,20 +17,22 @@ public class Libro extends Obra {
 	private ArrayList<Autor> autores;
 	private Coleccion coleccion;
 	private Saga saga;
-	private Tomo tomo;
+	private Tomo tomoCol;
+	private Tomo tomoSag;
 	private Ubicacion ubicacion;
 	private Estanteria estanteria;
 	private Balda balda;
 
 	// CONSTRUCTOR
 	public Libro(int id, String titulo, int paginas, String genero, String idioma, boolean leido,
-			ArrayList<Autor> autores, Coleccion coleccion, Saga saga, Tomo tomo, Ubicacion ubicacion,
+			ArrayList<Autor> autores, Coleccion coleccion, Saga saga, Tomo tomoCol, Tomo tomoSag, Ubicacion ubicacion,
 			Estanteria estanteria, Balda balda) {
 		super(id, titulo, paginas, genero, idioma, leido);
 		this.autores = autores;
 		this.coleccion = coleccion;
 		this.saga = saga;
-		this.tomo = tomo;
+		this.tomoCol = tomoCol;
+		this.tomoSag = tomoSag;
 		this.ubicacion = ubicacion;
 		this.estanteria = estanteria;
 		this.balda = balda;
@@ -44,8 +46,9 @@ public class Libro extends Obra {
 
 	@Override
 	public String toString() {
-		return "Libro [id=" + id + ", autores=" + autores + ", coleccion=" + coleccion + ", saga=" + saga + ", tomo="
-				+ tomo + ", ubicacion=" + ubicacion + ", estanteria=" + estanteria + ", balda=" + balda + "]";
+		return "Libro [id=" + id + ", autores=" + autores + ", coleccion=" + coleccion + ", saga=" + saga + ", tomoCol="
+				+ tomoCol + ", tomoSag=" + tomoSag + ", ubicacion=" + ubicacion + ", estanteria=" + estanteria
+				+ ", balda=" + balda + "]";
 	}
 
 	// GETTER Y SETTER
@@ -81,12 +84,20 @@ public class Libro extends Obra {
 		this.saga = saga;
 	}
 
-	public Tomo getTomo() {
-		return tomo;
+	public Tomo getTomoCol() {
+		return tomoCol;
 	}
 
-	public void setTomo(Tomo tomo) {
-		this.tomo = tomo;
+	public void setTomoCol(Tomo tomoCol) {
+		this.tomoCol = tomoCol;
+	}
+
+	public Tomo getTomoSag() {
+		return tomoSag;
+	}
+
+	public void setTomoSag(Tomo tomoSag) {
+		this.tomoSag = tomoSag;
 	}
 
 	public Ubicacion getUbicacion() {

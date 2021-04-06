@@ -9,6 +9,9 @@ public class Tomo extends Compilacion {
 	public Tomo(int numero) {
 		this.numero = numero;
 	}
+	public Tomo() {
+		
+	}
 
 	// METODOS
 	@Override
