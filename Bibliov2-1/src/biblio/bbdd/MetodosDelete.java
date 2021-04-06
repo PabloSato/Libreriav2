@@ -19,6 +19,7 @@ public class MetodosDelete {
 	}
 
 	// METODOS DEL
+	
 	// ------------------------------------------------------------------LIBRO
 	public void delBook(Connection con) {
 

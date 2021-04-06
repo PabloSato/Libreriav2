@@ -14,13 +14,13 @@ public class OpBbdd {
 	// ------------------------------------------------------------------CONTAR
 	public int contar(Connection con, String tabla) {
 		int cuenta = 0;
-		
+
 		verCount(con, tabla);
-		
+
 		return cuenta;
 	}
-	
-	
+
+	// ------------------------------------------------------------------CONTAR
 	private int verCount(Connection con, String tabla) {
 
 		int total = 0;
