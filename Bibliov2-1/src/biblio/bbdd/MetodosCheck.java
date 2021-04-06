@@ -410,44 +410,88 @@ public class MetodosCheck {
 		}
 		return;
 	}
-	// ------------------------------------------------------------------TOMO-COL
-		public void checkTomoSag(Connection con, Saga saga) {
-			int numero = -1;
+
+	// ------------------------------------------------------------------TOMO2-COLECCION
+	public Tomo checkTomoCol(Connection con, Coleccion col, int numero) {
+		Tomo tomo = null;
+		String colec = "", titulo = "";
+		int num = -1;
+		try {
+			Statement sentencia = con.createStatement();
+			ResultSet rs = sentencia.executeQuery("SELECT * FROM colec_volumen WHERE numero = " + numero
+					+ "AND coleccion = '" + col.getNombre() + "'");
+			while (rs.next()) {
+				colec = rs.getString("coleccion");
+				titulo = rs.getString("titulo");
+				num = rs.getInt("numero");
+
+				tomo = new Tomo(num);
+			}
+		} catch (SQLException e) {
+			System.out.println("Error al mostrar la busqueda");
+			System.out.println(e.getMessage());
+		} catch (Exception e1) {
+			System.out.println("Valores no Validos");
+			System.out.println(e1.getMessage());
+		}
+		return tomo;
+	}
+
+	// ------------------------------------------------------------------TOMO-SAGA
+	public void checkTomoSag(Connection con, Saga saga) {
+		int numero = -1;
+		try {
+			System.out.println("Escribe el número del tomo que buscas de la saga");
+			numero = Integer.parseInt(scan.nextLine());
+			Statement sentencia = con.createStatement();
+			ResultSet rs = sentencia.executeQuery("SELECT * FROM saga_volumen WHERE numero = " + numero
+					+ "AND coleccion = '" + saga.getNombre() + "'");
+
+			while (rs.next()) {
+				System.out.print(rs.getString("saga"));
+				System.out.print(" - ");
+				System.out.print(rs.getString("titulo"));
+				System.out.print(" nº");
+				System.out.print(rs.getInt("numero"));
+				System.out.println();
+
+			}
+		} catch (SQLException e) {
+			System.out.println("Error al mostrar la busqueda");
+			System.out.println(e.getMessage());
+			return;
+		} catch (Exception e1) {
+			System.out.println("Valores no Validos");
+			System.out.println(e1.getMessage());
+			return;
+		}
+		return;
+	}
+	// ------------------------------------------------------------------TOMO2-COLECCION
+		public Tomo checkTomoSag(Connection con, Saga col, int numero) {
+			Tomo tomo = null;
+			String saga = "", titulo = "";
+			int num = -1;
 			try {
-				System.out.println("Escribe el número del tomo que buscas de la saga");
-				numero = Integer.parseInt(scan.nextLine());
 				Statement sentencia = con.createStatement();
 				ResultSet rs = sentencia.executeQuery("SELECT * FROM saga_volumen WHERE numero = " + numero
-						+ "AND coleccion = '" + saga.getNombre() + "'");
-
+						+ "AND coleccion = '" + col.getNombre() + "'");
 				while (rs.next()) {
-					System.out.print(rs.getString("saga"));
-					System.out.print(" - ");
-					System.out.print(rs.getString("titulo"));
-					System.out.print(" nº");
-					System.out.print(rs.getInt("numero"));
-					System.out.println();
+					saga = rs.getString("coleccion");
+					titulo = rs.getString("titulo");
+					num = rs.getInt("numero");
 
+					tomo = new Tomo(num);
 				}
 			} catch (SQLException e) {
 				System.out.println("Error al mostrar la busqueda");
 				System.out.println(e.getMessage());
-				return;
 			} catch (Exception e1) {
 				System.out.println("Valores no Validos");
 				System.out.println(e1.getMessage());
-				return;
 			}
-			return;
+			return tomo;
 		}
-	// ------------------------------------------------------------------TOMO2
-	public Tomo checkTomo(Connection con, Coleccion col, int numero) {
-		Tomo tomo = null;
-		String colec = "", titulo = ""; 
-
-		return tomo;
-	}
-
 	// ------------------------------------------------------------------UBIC
 	public void checkUbic(Connection con) {
 

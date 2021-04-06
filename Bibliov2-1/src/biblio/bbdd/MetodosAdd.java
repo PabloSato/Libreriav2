@@ -300,17 +300,57 @@ public class MetodosAdd {
 		}
 		// -....................................SAGA-OUT
 		// -....................................TOMO-IN
-//		if (colec != false) {
-//			
-//			tomo = check.checkTomo(con, colec);
-//			if(tomo != null) {
-//				System.out.println("¡Ya tenemos ese número de tomo!");
-//				
-//			}else {
-//
-//				tomo = addTomo(con);	
-//			}
-//		}
+		if (colec != false) {
+				do {
+					System.out.println("Añadimos número de tomo");
+					do {
+						try {
+							System.out.println("Introduce número");
+							tom = Integer.parseInt(scan.nextLine());
+							if(tom < 0) {
+								System.out.println("Introduce numero superiores a 0");
+								flag = false;
+							}else {
+								flag = true;
+							}
+						} catch (Exception e) {
+							System.out.println("Valores no aceptados");
+							System.out.println(e.toString());
+							flag = false;
+						}
+					} while (flag != true);
+					
+					if(sag != false) {
+						
+						tomo = check.checkTomoSag(con, saga, tom);
+						
+						if(tomo != null) {
+							System.out.println("Este número ya está asignado a un volumen");
+							System.out.println(saga.getTomos().get(tom).getNumero());
+							flag = false;
+						}else {
+							tomo = addTomo(con, tom);
+							saga.getTomos().add(tomo);
+						}
+					}else {
+						
+						tomo = check.checkTomoCol(con, col, tom);
+						
+						if(tomo !=null) {
+							System.out.println("Este número ya está asignado a un volumen");
+							System.out.println(col.getTomos().get(tom).getNumero());
+							flag = false;
+						}else {
+							tomo = addTomo(con, tom);
+							col.getTomos().add(tomo);
+						}
+						
+					}
+					
+				} while (flag != true);
+			
+		}
+
 		// -....................................TOMO-OUT
 		// -....................................GENERO-IN
 		do {
@@ -758,6 +798,14 @@ public class MetodosAdd {
 
 		return tomo;
 	}
+	// ------------------------------------------------------------------TOMO2
+		public Tomo addTomo(Connection con, int numero) {
+			Tomo tomo = null;
+			
+			tomo = new Tomo(numero);
+
+			return tomo;
+		}
 
 	// ------------------------------------------------------------------TOMO
 	// ------------------------------------------------------------------UBI
