@@ -386,7 +386,7 @@ public class MetodosCheck {
 			numero = Integer.parseInt(scan.nextLine());
 			Statement sentencia = con.createStatement();
 			ResultSet rs = sentencia.executeQuery("SELECT * FROM colec_volumen WHERE numero = " + numero
-					+ "AND coleccion = '" + col.getNombre() + "'");
+					+ " AND coleccion = '" + col.getNombre() + "'");
 
 			while (rs.next()) {
 				System.out.print(rs.getString("coleccion"));
@@ -398,7 +398,7 @@ public class MetodosCheck {
 
 			}
 		} catch (SQLException e) {
-			System.out.println("Error al mostrar la busqueda");
+			System.out.println("Error al mostrar la busqueda tomo en coelccion");
 			System.out.println(e.getMessage());
 			return;
 		} catch (Exception e1) {
@@ -417,7 +417,7 @@ public class MetodosCheck {
 		try {
 			Statement sentencia = con.createStatement();
 			ResultSet rs = sentencia.executeQuery("SELECT * FROM colec_volumen WHERE numero = " + numero
-					+ "AND coleccion = '" + col.getNombre() + "'");
+					+ " AND coleccion = '" + col.getNombre() + "'");
 			while (rs.next()) {
 				colec = rs.getString("coleccion");
 				titulo = rs.getString("titulo");
@@ -426,7 +426,7 @@ public class MetodosCheck {
 				tomo = new Tomo(num);
 			}
 		} catch (SQLException e) {
-			System.out.println("Error al mostrar la busqueda");
+			System.out.println("Error al mostrar la busqueda del tomo en coelccion");
 			System.out.println(e.getMessage());
 		} catch (Exception e1) {
 			System.out.println("Valores no Validos");
@@ -443,7 +443,7 @@ public class MetodosCheck {
 			numero = Integer.parseInt(scan.nextLine());
 			Statement sentencia = con.createStatement();
 			ResultSet rs = sentencia.executeQuery("SELECT * FROM saga_volumen WHERE numero = " + numero
-					+ "AND coleccion = '" + saga.getNombre() + "'");
+					+ " AND saga = '" + saga.getNombre() + "'");
 
 			while (rs.next()) {
 				System.out.print(rs.getString("saga"));
@@ -455,7 +455,7 @@ public class MetodosCheck {
 
 			}
 		} catch (SQLException e) {
-			System.out.println("Error al mostrar la busqueda");
+			System.out.println("Error al mostrar la busqueda del tomo en saga");
 			System.out.println(e.getMessage());
 			return;
 		} catch (Exception e1) {
@@ -467,23 +467,22 @@ public class MetodosCheck {
 	}
 
 	// ------------------------------------------------------------------TOMO2-COLECCION
-	public Tomo checkTomoSag(Connection con, Saga col, int numero) {
+	public Tomo checkTomoSag(Connection con, Saga sag, int numero) {
 		Tomo tomo = null;
 		String saga = "", titulo = "";
-		int num = -1;
+		int num;
 		try {
 			Statement sentencia = con.createStatement();
-			ResultSet rs = sentencia.executeQuery("SELECT * FROM saga_volumen WHERE numero = " + numero
-					+ "AND coleccion = '" + col.getNombre() + "'");
+			ResultSet rs = sentencia.executeQuery("SELECT * FROM saga_volumen WHERE numero = " + numero + " AND saga = '" + sag.getNombre() + "'");
 			while (rs.next()) {
-				saga = rs.getString("coleccion");
+				saga = rs.getString("saga");
 				titulo = rs.getString("titulo");
 				num = rs.getInt("numero");
 
 				tomo = new Tomo(num);
 			}
 		} catch (SQLException e) {
-			System.out.println("Error al mostrar la busqueda");
+			System.out.println("Error al mostrar la busqueda del tomo en saga aqui");
 			System.out.println(e.getMessage());
 		} catch (Exception e1) {
 			System.out.println("Valores no Validos");
