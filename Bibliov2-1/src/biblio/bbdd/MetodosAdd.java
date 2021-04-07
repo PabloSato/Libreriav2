@@ -375,15 +375,14 @@ public class MetodosAdd {
 					flag = false;
 				}
 			} while (flag != true);
-			
+
 			gen = check.checkGenero(con, genero);
-			
-			if(gen == null) {
-				
+			if (gen != null) {
+				System.out.println("Ya tenemos la genero " + gen.getGenero());
+			} else {
 				gen = addGenero(con, genero);
 			}
-			
-			
+
 			// -....................................GENERO-OUT
 			// -....................................IDIOMA-IN
 			do {
@@ -401,15 +400,17 @@ public class MetodosAdd {
 					flag = false;
 				}
 			} while (flag != true);
-			
+
 			idio = check.checkIdioma(con, idioma);
-			
-			if(idio == null) {
-				
+
+			if (idio != null) {
+				System.out.println("Ya tenemos el idioma "+idio.getIdioma());
+
+			} else {
+
 				idio = addIdioma(con, idioma);
-				
 			}
-			
+
 			// -....................................IDIOMA-OUT
 			// -....................................PAGINAS-IN
 			do {
@@ -516,7 +517,7 @@ public class MetodosAdd {
 				System.out.println("Balda " + balda.getNumero());
 			} else {
 				System.out.println("No tenemos esa balda");
-				balda = addBalda(con, st);
+				balda = addBalda(con, ub, st);
 				st.getBaldas().add(balda);
 			}
 			// -....................................BALDA-OUT
@@ -1115,7 +1116,7 @@ public class MetodosAdd {
 	}
 
 	// ------------------------------------------------------------------BALDA
-	public Balda addBalda(Connection con, Estanteria st) {
+	public Balda addBalda(Connection con, Ubicacion ub, Estanteria st) {
 		Balda balda = null;
 		int num = 0;
 		boolean flag = false;
@@ -1138,20 +1139,24 @@ public class MetodosAdd {
 		} while (flag != true);
 
 		balda = new Balda(num);
-		addBalda(con, st, balda);
+		addBalda(con, ub, st, balda);
 		return balda;
 	}
 
 	// ------------------------------------------------------------------BALDA
-	private void addBalda(Connection con, Estanteria st, Balda bald) {
-		String sql = "INSERT INTO balda(numero, estanteria)" + " VALUES(?, ?)";
+	private void addBalda(Connection con, Ubicacion ub, Estanteria st, Balda bald) {
+		String sql = "INSERT INTO balda(id, numero, ubicacion, estanteria)" + " VALUES(?, ?, ?, ?)";
+		String tabla = "balda";
+		int id = op.contar(con, tabla) + 1;
 
 		PreparedStatement sentencia;
 		int af;
 		try {
 			sentencia = con.prepareStatement(sql);
-			sentencia.setInt(1, bald.getNumero());
-			sentencia.setString(2, st.getNombre());
+			sentencia.setInt(1, id);
+			sentencia.setInt(2, bald.getNumero());
+			sentencia.setString(3, ub.getNombre());
+			sentencia.setString(4, st.getNombre());
 			af = sentencia.executeUpdate();
 
 		} catch (SQLException e) {
@@ -1263,28 +1268,30 @@ public class MetodosAdd {
 		System.out.println("Se ha añadido " + af + " genero");
 
 	}
+
 	// ------------------------------------------------------------------IDIOMA
 	public Idioma addIdioma(Connection con, String idioma) {
 		Idioma id = null;
-		
+
 		id = new Idioma(idioma);
 		addIdio(con, id);
-		
+
 		return id;
 	}
+
 	// ------------------------------------------------------------------IDIOMA-BBDD
 	private void addIdio(Connection con, Idioma idioma) {
-		
+
 		String sql = "INSERT INTO idioma(idioma) VALUES(?)";
-		
+
 		PreparedStatement sentencia;
 		int af;
-		
+
 		try {
 			sentencia = con.prepareStatement(sql);
 			sentencia.setString(1, idioma.getIdioma());
 			af = sentencia.executeUpdate();
-			
+
 		} catch (SQLException e) {
 			System.out.println("Error al insertar el género");
 			System.out.println(e.getMessage());
@@ -1293,5 +1300,5 @@ public class MetodosAdd {
 
 		System.out.println("Se ha añadido " + af + " idioma");
 	}
-	
+
 }

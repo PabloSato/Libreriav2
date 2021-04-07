@@ -695,8 +695,7 @@ public class MetodosCheck {
 
 		try {
 			Statement sentencia = con.createStatement();
-			ResultSet rs = sentencia.executeQuery("SELECT * FROM genero WHERE genero LIKE '%" + genero + " %'");
-
+			ResultSet rs = sentencia.executeQuery("SELECT * FROM genero WHERE genero LIKE '%" + genero + "%'");
 			while (rs.next()) {
 				String ge = rs.getString("genero");
 
@@ -709,7 +708,7 @@ public class MetodosCheck {
 			System.out.println("Valores no Validos");
 			System.out.println(e1.getMessage());
 		}
-
+		
 		return gen;
 	}
 
@@ -721,7 +720,6 @@ public class MetodosCheck {
 			String idioma = scan.nextLine();
 			Statement sentencia = con.createStatement();
 			ResultSet rs = sentencia.executeQuery("SELECT * FROM idioma WHERE idioma LIKE '%" + idioma + "%'");
-
 			while (rs.next()) {
 				System.out.print(rs.getString("idioma"));
 				System.out.print(" ");
@@ -746,7 +744,7 @@ public class MetodosCheck {
 
 		try {
 			Statement sentencia = con.createStatement();
-			ResultSet rs = sentencia.executeQuery("SELECT * FROM idioma WHERE idioma LIKE '%" + idioma + " %'");
+			ResultSet rs = sentencia.executeQuery("SELECT * FROM idioma WHERE idioma LIKE '%" + idioma + "%'");
 
 			while (rs.next()) {
 				String idi = rs.getString("idioma");
