@@ -11,6 +11,8 @@ import biblio.autor.Dibujante;
 import biblio.colec.Coleccion;
 import biblio.colec.Saga;
 import biblio.colec.Tomo;
+import biblio.misc.Genero;
+import biblio.misc.Idioma;
 import biblio.obra.Libro;
 import biblio.ubi.Balda;
 import biblio.ubi.Estanteria;
@@ -41,6 +43,8 @@ public class MetodosAdd {
 		Estanteria st = null;
 		Balda balda = null;
 		ArrayList<Autor> autores = new ArrayList<Autor>();
+		Genero gen = null;
+		Idioma idio = null;
 
 		int id = 0, paginas = 0, tom = -1, bald = 0;
 		String titulo = "", genero = "", idioma = "", alias = "";
@@ -371,6 +375,15 @@ public class MetodosAdd {
 					flag = false;
 				}
 			} while (flag != true);
+			
+			gen = check.checkGenero(con, genero);
+			
+			if(gen == null) {
+				
+				gen = addGenero(con, genero);
+			}
+			
+			
 			// -....................................GENERO-OUT
 			// -....................................IDIOMA-IN
 			do {
@@ -388,6 +401,15 @@ public class MetodosAdd {
 					flag = false;
 				}
 			} while (flag != true);
+			
+			idio = check.checkIdioma(con, idioma);
+			
+			if(idio == null) {
+				
+				idio = addIdioma(con, idioma);
+				
+			}
+			
 			// -....................................IDIOMA-OUT
 			// -....................................PAGINAS-IN
 			do {
@@ -553,8 +575,8 @@ public class MetodosAdd {
 			// -....................................CREACION-OUT
 			// -....................................BBDD-IN
 			addBook(con, libro);
-			for(int i = 0; i < autores.size(); i++) {
-				addAutoBook(con, autores.get(i),libro);
+			for (int i = 0; i < autores.size(); i++) {
+				addAutoBook(con, autores.get(i), libro);
 			}
 			if (colec != false) {
 				if (sag != false) {
@@ -565,7 +587,7 @@ public class MetodosAdd {
 				}
 			}
 			addToBalda(con, balda, libro);
-			if(comic != false) {
+			if (comic != false) {
 				addComic(con, autor, dibuja, libro);
 			}
 			// -....................................BBDD-OUT
@@ -1168,7 +1190,7 @@ public class MetodosAdd {
 		String tabla = "libro_autor_dibujante";
 		int id = op.contar(con, tabla);
 		String sql = "INSERT INTO libro_autor_dibujante(id, libro, autor, dibujante) VALUES(?, ?, ?, ?)";
-		
+
 		PreparedStatement sentencia;
 		int af;
 		try {
@@ -1186,12 +1208,13 @@ public class MetodosAdd {
 
 		System.out.println("Se ha añadido " + af + " Comics");
 	}
+
 	// ------------------------------------------------------------------AUTOR-LIBRO
 	private void addAutoBook(Connection con, Autor autor, Libro libro) {
 		String tabla = "libro_autor";
-		int id = op.contar(con, tabla)+1;
+		int id = op.contar(con, tabla) + 1;
 		String sql = "INSERT INTO libro_autor(id, libro, autor) VALUES(?, ?, ?)";
-		
+
 		PreparedStatement sentencia;
 		int af;
 		try {
@@ -1209,4 +1232,66 @@ public class MetodosAdd {
 		System.out.println("Se ha añadido " + af + " Comics");
 	}
 
+	// ------------------------------------------------------------------GENERO
+	public Genero addGenero(Connection con, String genero) {
+		Genero gen = null;
+
+		gen = new Genero(genero);
+		addGen(con, gen);
+
+		return gen;
+	}
+
+	// ------------------------------------------------------------------GENERO-BBDD
+	private void addGen(Connection con, Genero genero) {
+
+		String sql = "INSERT INTO genero(genero) VALUES(?)";
+
+		PreparedStatement sentencia;
+		int af;
+
+		try {
+			sentencia = con.prepareStatement(sql);
+			sentencia.setString(1, genero.getGenero());
+			af = sentencia.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("Error al insertar el género");
+			System.out.println(e.getMessage());
+			return;
+		}
+
+		System.out.println("Se ha añadido " + af + " genero");
+
+	}
+	// ------------------------------------------------------------------IDIOMA
+	public Idioma addIdioma(Connection con, String idioma) {
+		Idioma id = null;
+		
+		id = new Idioma(idioma);
+		addIdio(con, id);
+		
+		return id;
+	}
+	// ------------------------------------------------------------------IDIOMA-BBDD
+	private void addIdio(Connection con, Idioma idioma) {
+		
+		String sql = "INSERT INTO idioma(idioma) VALUES(?)";
+		
+		PreparedStatement sentencia;
+		int af;
+		
+		try {
+			sentencia = con.prepareStatement(sql);
+			sentencia.setString(1, idioma.getIdioma());
+			af = sentencia.executeUpdate();
+			
+		} catch (SQLException e) {
+			System.out.println("Error al insertar el género");
+			System.out.println(e.getMessage());
+			return;
+		}
+
+		System.out.println("Se ha añadido " + af + " idioma");
+	}
+	
 }

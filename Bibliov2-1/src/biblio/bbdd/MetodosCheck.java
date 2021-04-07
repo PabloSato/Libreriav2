@@ -11,6 +11,8 @@ import biblio.autor.Dibujante;
 import biblio.colec.Coleccion;
 import biblio.colec.Saga;
 import biblio.colec.Tomo;
+import biblio.misc.Genero;
+import biblio.misc.Idioma;
 import biblio.obra.Libro;
 import biblio.ubi.Balda;
 import biblio.ubi.Estanteria;
@@ -442,8 +444,8 @@ public class MetodosCheck {
 			System.out.println("Escribe el número del tomo que buscas de la saga");
 			numero = Integer.parseInt(scan.nextLine());
 			Statement sentencia = con.createStatement();
-			ResultSet rs = sentencia.executeQuery("SELECT * FROM saga_volumen WHERE numero = " + numero
-					+ " AND saga = '" + saga.getNombre() + "'");
+			ResultSet rs = sentencia.executeQuery(
+					"SELECT * FROM saga_volumen WHERE numero = " + numero + " AND saga = '" + saga.getNombre() + "'");
 
 			while (rs.next()) {
 				System.out.print(rs.getString("saga"));
@@ -473,7 +475,8 @@ public class MetodosCheck {
 		int num;
 		try {
 			Statement sentencia = con.createStatement();
-			ResultSet rs = sentencia.executeQuery("SELECT * FROM saga_volumen WHERE numero = " + numero + " AND saga = '" + sag.getNombre() + "'");
+			ResultSet rs = sentencia.executeQuery(
+					"SELECT * FROM saga_volumen WHERE numero = " + numero + " AND saga = '" + sag.getNombre() + "'");
 			while (rs.next()) {
 				saga = rs.getString("saga");
 				titulo = rs.getString("titulo");
@@ -658,6 +661,107 @@ public class MetodosCheck {
 		}
 		return b;
 	}
-	// ------------------------------------------------------------------SAGA
+
+	// ------------------------------------------------------------------GENERO
+	public void checkGenero(Connection con) {
+		try {
+
+			System.out.println("Escribe el nombre del Genero que buscas");
+			String genero = scan.nextLine();
+			Statement sentencia = con.createStatement();
+			ResultSet rs = sentencia.executeQuery("SELECT * FROM genero WHERE genero LIKE '%" + genero + "%'");
+
+			while (rs.next()) {
+				System.out.print(rs.getString("genero"));
+				System.out.print(" ");
+				System.out.println();
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Error al mostrar la busqueda del genero");
+			System.out.println(e.getMessage());
+			return;
+		} catch (Exception e1) {
+			System.out.println("Valores no Validos");
+			System.out.println(e1.getMessage());
+			return;
+		}
+		return;
+	}
+
+	// ------------------------------------------------------------------GENERO
+	public Genero checkGenero(Connection con, String genero) {
+		Genero gen = null;
+
+		try {
+			Statement sentencia = con.createStatement();
+			ResultSet rs = sentencia.executeQuery("SELECT * FROM genero WHERE genero LIKE '%" + genero + " %'");
+
+			while (rs.next()) {
+				String ge = rs.getString("genero");
+
+				gen = new Genero(ge);
+			}
+		} catch (SQLException e) {
+			System.out.println("Error al mostrar la busqueda");
+			System.out.println(e.getMessage());
+		} catch (Exception e1) {
+			System.out.println("Valores no Validos");
+			System.out.println(e1.getMessage());
+		}
+
+		return gen;
+	}
+
+// ------------------------------------------------------------------IDIOMA
+	public void checkIdioma(Connection con) {
+		try {
+
+			System.out.println("Escribe el Idioma que buscas");
+			String idioma = scan.nextLine();
+			Statement sentencia = con.createStatement();
+			ResultSet rs = sentencia.executeQuery("SELECT * FROM idioma WHERE idioma LIKE '%" + idioma + "%'");
+
+			while (rs.next()) {
+				System.out.print(rs.getString("idioma"));
+				System.out.print(" ");
+				System.out.println();
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Error al mostrar la busqueda del idioma");
+			System.out.println(e.getMessage());
+			return;
+		} catch (Exception e1) {
+			System.out.println("Valores no Validos");
+			System.out.println(e1.getMessage());
+			return;
+		}
+		return;
+	}
+
+// ------------------------------------------------------------------IDIOMA
+	public Idioma checkIdioma(Connection con, String idioma) {
+		Idioma idiom = null;
+
+		try {
+			Statement sentencia = con.createStatement();
+			ResultSet rs = sentencia.executeQuery("SELECT * FROM idioma WHERE idioma LIKE '%" + idioma + " %'");
+
+			while (rs.next()) {
+				String idi = rs.getString("idioma");
+
+				idiom = new Idioma(idi);
+			}
+		} catch (SQLException e) {
+			System.out.println("Error al mostrar la busqueda");
+			System.out.println(e.getMessage());
+		} catch (Exception e1) {
+			System.out.println("Valores no Validos");
+			System.out.println(e1.getMessage());
+		}
+
+		return idiom;
+	}
 
 }
