@@ -1144,7 +1144,7 @@ public class MetodosAdd {
 	// ------------------------------------------------------------------BALDA
 	private void addToBalda(Connection con, Balda balda, Libro libro) {
 		String tabla = "libro_balda";
-		String sql = "INSERT INTO libro_balda(indice, balda, libro) VALUES(?, ?, ?)";
+		String sql = "INSERT INTO libro_balda(id, balda, libro) VALUES(?, ?, ?)";
 		int id = op.contar(con, tabla) + 1;
 
 		PreparedStatement sentencia;
@@ -1167,7 +1167,7 @@ public class MetodosAdd {
 	private void addComic(Connection con, Autor autor, Dibujante dibu, Libro libro) {
 		String tabla = "libro_autor_dibujante";
 		int id = op.contar(con, tabla);
-		String sql = "INSERT INTO libro_autor_dibujante(indice, libro, autor, dibujante) VALUES(?, ?, ?, ?)";
+		String sql = "INSERT INTO libro_autor_dibujante(id, libro, autor, dibujante) VALUES(?, ?, ?, ?)";
 		
 		PreparedStatement sentencia;
 		int af;
@@ -1190,7 +1190,7 @@ public class MetodosAdd {
 	private void addAutoBook(Connection con, Autor autor, Libro libro) {
 		String tabla = "libro_autor";
 		int id = op.contar(con, tabla)+1;
-		String sql = "INSERT INTO libro_autor(indice, libro, autor) VALUES(?, ?, ?)";
+		String sql = "INSERT INTO libro_autor(id, libro, autor) VALUES(?, ?, ?)";
 		
 		PreparedStatement sentencia;
 		int af;
