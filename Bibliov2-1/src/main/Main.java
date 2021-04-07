@@ -9,6 +9,7 @@ import biblio.bbdd.MetodosAdd;
 import biblio.bbdd.MetodosCheck;
 import biblio.bbdd.MetodosDelete;
 import biblio.bbdd.MetodosVer;
+import biblio.bbdd.OpBbdd;
 
 public class Main {
 
@@ -22,7 +23,6 @@ public class Main {
 	public static void main(String[] args) {
 
 		Connection con = abrirConexionBD();
-
 		char opc = 0;
 		char opc1 = 0;
 

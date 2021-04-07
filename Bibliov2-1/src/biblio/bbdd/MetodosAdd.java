@@ -1099,7 +1099,7 @@ public class MetodosAdd {
 
 		do {
 			try {
-				System.out.println("Introduce el numero de valda");
+				System.out.println("Introduce el numero de Balda");
 				num = Integer.parseInt(scan.nextLine());
 				if (num < 0) {
 					System.out.println("Introuce numeros por encima de 0");
@@ -1132,7 +1132,7 @@ public class MetodosAdd {
 			af = sentencia.executeUpdate();
 
 		} catch (SQLException e) {
-			System.out.println("Error al insertar valda");
+			System.out.println("Error al insertar Balda");
 			System.out.println(e.getMessage());
 			return;
 		}
@@ -1164,9 +1164,9 @@ public class MetodosAdd {
 
 	// ------------------------------------------------------------------COMIC
 	private void addComic(Connection con, Autor autor, Dibujante dibu, Libro libro) {
-		String tabla = "libro_escritor_dibujante";
+		String tabla = "libro_autor_dibujante";
 		int id = op.contar(con, tabla);
-		String sql = "INSERT INTO libro_escritor_dibujante(id, libro, autor, dibujante) VALUES(?, ?, ?, ?)";
+		String sql = "INSERT INTO libro_autor_dibujante(indice, libro, autor, dibujante) VALUES(?, ?, ?, ?)";
 		
 		PreparedStatement sentencia;
 		int af;

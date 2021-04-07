@@ -15,7 +15,7 @@ public class OpBbdd {
 	public int contar(Connection con, String tabla) {
 		int cuenta = 0;
 
-		verCount(con, tabla);
+		cuenta = verCount(con, tabla);
 
 		return cuenta;
 	}
