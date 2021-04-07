@@ -553,7 +553,9 @@ public class MetodosAdd {
 			// -....................................CREACION-OUT
 			// -....................................BBDD-IN
 			addBook(con, libro);
-			addAutoBook(con, autor, libro);
+			for(int i = 0; i < autores.size(); i++) {
+				addAutoBook(con, autores.get(i),libro);
+			}
 			if (colec != false) {
 				if (sag != false) {
 					addTomSag(con, saga, tomoSag, libro);
@@ -993,7 +995,6 @@ public class MetodosAdd {
 		Ubicacion ub = null;
 		Estanteria st = null;
 		String donde = "";
-		int valdas = 0;
 		boolean flag = false;
 
 		do {
@@ -1188,7 +1189,7 @@ public class MetodosAdd {
 	// ------------------------------------------------------------------AUTOR-LIBRO
 	private void addAutoBook(Connection con, Autor autor, Libro libro) {
 		String tabla = "libro_autor";
-		int id = op.contar(con, tabla);
+		int id = op.contar(con, tabla)+1;
 		String sql = "INSERT INTO libro_autor(indice, libro, autor) VALUES(?, ?, ?)";
 		
 		PreparedStatement sentencia;
