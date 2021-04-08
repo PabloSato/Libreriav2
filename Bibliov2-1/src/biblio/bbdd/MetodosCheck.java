@@ -83,6 +83,8 @@ public class MetodosCheck {
 		Ubicacion ub = null;
 		Estanteria st = null;
 		Balda bald = null;
+		Genero gen = null;
+		Idioma idi = null;
 		try {
 			Statement sentencia = con.createStatement();
 			ResultSet rs = sentencia.executeQuery("SELECT * FROM libro WHERE titulo LIKE '%" + nombre + "%'");
@@ -107,11 +109,11 @@ public class MetodosCheck {
 				ub = checkUbic(con, ubicacion);
 				st = checkStante(con, ub, estanteria);
 				bald = checkBalda(con, st, balda);
+				gen = checkGenero(con, genero);
+				idi = checkIdioma(con, idioma);
 
-				// aut = checkLibroAut(con, titulo);
-
-				// libro = new Libro(titulo, paginas, genero, idioma, leido, id, aut, col, sag,
-				// tomo, ub, st, bald);
+				
+				
 
 			}
 

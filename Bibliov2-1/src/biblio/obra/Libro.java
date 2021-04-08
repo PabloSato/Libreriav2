@@ -37,6 +37,17 @@ public class Libro extends Obra {
 		this.estanteria = estanteria;
 		this.balda = balda;
 	}
+	public Libro(int id, String titulo, int paginas, String genero, String idioma, boolean leido, Coleccion coleccion, Saga saga, Tomo tomoCol, Tomo tomoSag, Ubicacion ubicacion,
+			Estanteria estanteria, Balda balda) {
+		super(id, titulo, paginas, genero, idioma, leido);
+		this.coleccion = coleccion;
+		this.saga = saga;
+		this.tomoCol = tomoCol;
+		this.tomoSag = tomoSag;
+		this.ubicacion = ubicacion;
+		this.estanteria = estanteria;
+		this.balda = balda;
+	}
 
 	// METODOS
 	@Override
@@ -46,9 +57,9 @@ public class Libro extends Obra {
 
 	@Override
 	public String toString() {
-		return "Libro [id=" + id + ", autores=" + autores + ", coleccion=" + coleccion + ", saga=" + saga + ", tomoCol="
-				+ tomoCol + ", tomoSag=" + tomoSag + ", ubicacion=" + ubicacion + ", estanteria=" + estanteria
-				+ ", balda=" + balda + "]";
+		return "Libro [id=" + this.id + ", autores=" + this.autores + ", coleccion=" + this.coleccion + ", saga="
+				+ this.saga + ", tomoCol=" + this.tomoCol + ", tomoSag=" + this.tomoSag + ", ubicacion="
+				+ this.ubicacion + ", estanteria=" + this.estanteria + ", balda=" + this.balda + "]";
 	}
 
 	// GETTER Y SETTER
