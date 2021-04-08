@@ -548,7 +548,7 @@ public class MetodosAdd {
 			// -....................................LEIDO-OUT
 			// -....................................ID-IN
 			String tabla = "libro";
-			id = op.contar(con, tabla) + 1;
+			id = op.contar(con, tabla) + 1;//me autogenero un nuevo id
 			// -....................................ID-OUT
 
 			// -....................................CREACION-IN
@@ -573,22 +573,22 @@ public class MetodosAdd {
 			balda.getLibros().add(libro);
 			// -....................................CREACION-OUT
 			// -....................................BBDD-IN
-			addBook(con, libro);
+			addBook(con, libro);//añadimos libro a la BBDD
 			for (int i = 0; i < autores.size(); i++) {
-				addAutoBook(con, autores.get(i), libro);
+				addAutoBook(con, autores.get(i), libro);//añadimos Libro y Autores a la tabla intermedia
 			}
 			if (colec != false) {
 				if (sag != false) {
-					addTomSag(con, saga, tomoSag, libro);
+					addTomSag(con, saga, tomoSag, libro);//añadimos tomo a la Saga
 				} else {
 
-					addTomCol(con, col, libro, tomoCol);
+					addTomCol(con, col, libro, tomoCol);//añadimos tmo a a Coleccin
 				}
 			}
-			addToBalda(con, balda, libro);
+			addToBalda(con, balda, libro);//añadimos libro a la Balda
 			if (comic != false) {
 				for(int i = 0; i < autores.size(); i++) {
-					addComic(con, autores.get(i), dibuja, libro);
+					addComic(con, autores.get(i), dibuja, libro);//añadimos Comic a la tabla intermedia
 				}
 			}
 			// -....................................BBDD-OUT
@@ -700,7 +700,7 @@ public class MetodosAdd {
 		} while (flag != true);
 
 		autor = new Autor(nombre, apellidos, alias, bio);
-		addAut(con, autor);
+		addAut(con, autor);//añado autor a la tabla
 		return autor;
 	}
 
@@ -1147,7 +1147,7 @@ public class MetodosAdd {
 	private void addBalda(Connection con, Ubicacion ub, Estanteria st, Balda bald) {
 		String sql = "INSERT INTO balda(id, numero, ubicacion, estanteria)" + " VALUES(?, ?, ?, ?)";
 		String tabla = "balda";
-		int id = op.contar(con, tabla) + 1;
+		int id = op.contar(con, tabla) + 1;//autor genero un id nuevo
 
 		PreparedStatement sentencia;
 		int af;
@@ -1172,7 +1172,7 @@ public class MetodosAdd {
 	private void addToBalda(Connection con, Balda balda, Libro libro) {
 		String tabla = "libro_balda";
 		String sql = "INSERT INTO libro_balda(id, balda, libro) VALUES(?, ?, ?)";
-		int id = op.contar(con, tabla) + 1;
+		int id = op.contar(con, tabla) + 1;//autor genero un id nuevo
 
 		PreparedStatement sentencia;
 		int af;
@@ -1193,7 +1193,7 @@ public class MetodosAdd {
 	// ------------------------------------------------------------------COMIC
 	private void addComic(Connection con, Autor autor, Dibujante dibu, Libro libro) {
 		String tabla = "libro_autor_dibujante";
-		int id = op.contar(con, tabla);
+		int id = op.contar(con, tabla);//auto genero un ID nuevo
 		String sql = "INSERT INTO libro_autor_dibujante(id, libro, autor, dibujante) VALUES(?, ?, ?, ?)";
 
 		PreparedStatement sentencia;
@@ -1217,7 +1217,7 @@ public class MetodosAdd {
 	// ------------------------------------------------------------------AUTOR-LIBRO
 	private void addAutoBook(Connection con, Autor autor, Libro libro) {
 		String tabla = "libro_autor";
-		int id = op.contar(con, tabla) + 1;
+		int id = op.contar(con, tabla) + 1;//auto genero un id nuevo
 		String sql = "INSERT INTO libro_autor(id, libro, autor) VALUES(?, ?, ?)";
 
 		PreparedStatement sentencia;
