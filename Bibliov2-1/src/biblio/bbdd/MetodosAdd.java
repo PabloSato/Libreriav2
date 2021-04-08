@@ -51,7 +51,7 @@ public class MetodosAdd {
 		String aliasD = "", siNo = "", min = "", clc = "", sg = "";
 		String donde = "", stant = "";
 		boolean flag = false, leido = false, masAut = false;
-		boolean comic = false, colec = false, sag = false;
+		boolean comic = false, colec = false, sag = false, tc = false;
 
 		// -....................................EMPEZAMOS
 		do {
@@ -177,17 +177,16 @@ public class MetodosAdd {
 					}
 				} while (flag != true);
 
-				Dibujante dibu = check.checkDibuj(con, aliasD);// comprobamos con la bbdd
+				dibuja = check.checkDibuj(con, aliasD);// comprobamos con la bbdd
 
-				if (dibu != null) {
-					System.out.println("Ya tenemos el autor: " + dibu.getAlias());
-					dibuja = dibu;
+				if (dibuja != null) {
+					System.out.println("Ya tenemos el autor: " + dibuja.getAlias());
 				} else {
 
 					System.out.println("No tenemos ese autor");
-					autor = addDibujante(con);// añadimos a la bbdd
+					dibuja = addDibujante(con);// añadimos a la bbdd
 				}
-
+				System.out.println(dibuja.getAlias());
 			}
 			// -....................................COLEC-IN
 			do {
@@ -356,6 +355,69 @@ public class MetodosAdd {
 			}
 
 			// -....................................TOMO-OUT
+			// -....................................TOMCOL EN SAG-IN
+			if ((colec != false) && (sag != false)) {
+				do {
+					try {
+						System.out.println("¿El libro tiene un número en la colección?(Si/No)");
+						siNo = scan.nextLine();
+						min = siNo.toLowerCase().trim();
+						if (min.equals("")) {
+							System.out.println("Conteste si o no");
+							flag = false;
+						} else {
+							if (min.equals("si")) {
+								tc = true;
+								flag = true;
+							} else if (min.equals("no")) {
+								tc = false;
+								flag = true;
+							} else {
+								System.out.println("Conteste si o no");
+								flag = false;
+							}
+						}
+					} catch (Exception e) {
+						System.out.println("Valores no aceptados");
+						System.out.println(e.toString());
+						flag = false;
+					}
+				} while (flag != true);
+			}
+			if (tc != false) {
+				do {
+					System.out.println("Añadimos número de tomo");
+					do {
+						try {
+							System.out.println("Introduce número");
+							tom = Integer.parseInt(scan.nextLine());
+							if (tom < 0) {
+								System.out.println("Introduce numero superiores a 0");
+								flag = false;
+							} else {
+								flag = true;
+							}
+						} catch (Exception e) {
+							System.out.println("Valores no aceptados");
+							System.out.println(e.toString());
+							flag = false;
+						}
+					} while (flag != true);
+
+					tomoCol = check.checkTomoCol(con, col, tom);
+
+					if (tomoCol != null) {
+						System.out.println("Este número ya está asignado a un volumen");
+						System.out.println(col.getTomos().get(tom).getNumero());
+						flag = false;
+					} else {
+						tomoCol = addTomo(con, tom);
+						col.getTomos().add(tomoCol);
+					}
+
+				} while (flag != true);
+			}
+			// -....................................TOMCOL EN SAG-OUT
 			// -....................................GENERO-IN
 			do {
 				try {
@@ -402,7 +464,7 @@ public class MetodosAdd {
 			idio = check.checkIdioma(con, idioma);
 
 			if (idio != null) {
-				System.out.println("Ya tenemos el idioma "+idio.getIdioma());
+				System.out.println("Ya tenemos el idioma " + idio.getIdioma());
 
 			} else {
 
@@ -548,14 +610,16 @@ public class MetodosAdd {
 			// -....................................LEIDO-OUT
 			// -....................................ID-IN
 			String tabla = "libro";
-			id = op.contar(con, tabla) + 1;//me autogenero un nuevo id
+			id = op.contar(con, tabla) + 1;// me autogenero un nuevo id
 			// -....................................ID-OUT
 
 			// -....................................CREACION-IN
 			if (colec != false) {
 				if (sag != false) {
 					// TENEMOS SAGA Y COLECCION
-					tomoCol = new Tomo();
+					if (tc == false) {
+						tomoCol = new Tomo();
+					}
 				} else {
 					// TENEMOS COLECCION, NO TENEMOS SAGA
 					saga = new Saga();
@@ -573,27 +637,32 @@ public class MetodosAdd {
 			balda.getLibros().add(libro);
 			// -....................................CREACION-OUT
 			// -....................................BBDD-IN
-			addBook(con, libro);//añadimos libro a la BBDD
+			addBook(con, libro);// añadimos libro a la BBDD
 			for (int i = 0; i < autores.size(); i++) {
-				addAutoBook(con, autores.get(i), libro);//añadimos Libro y Autores a la tabla intermedia
+				addAutoBook(con, autores.get(i), libro);// añadimos Libro y Autores a la tabla intermedia
 			}
 			if (colec != false) {
 				if (sag != false) {
-					addTomSag(con, saga, tomoSag, libro);//añadimos tomo a la Saga
+					addTomSag(con, saga, tomoSag, libro);// añadimos tomo a la Saga
+					if(tc != false) {
+						addTomCol(con, col, libro, tomoCol);
+					}
 				} else {
 
-					addTomCol(con, col, libro, tomoCol);//añadimos tmo a a Coleccin
+					addTomCol(con, col, libro, tomoCol);// añadimos tmo a a Coleccin
 				}
 			}
-			addToBalda(con, balda, libro);//añadimos libro a la Balda
+			System.out.println(dibuja.getAlias());
+			addToBalda(con, balda, libro);// añadimos libro a la Balda
 			if (comic != false) {
-				for(int i = 0; i < autores.size(); i++) {
-					addComic(con, autores.get(i), dibuja, libro);//añadimos Comic a la tabla intermedia
+				for (int i = 0; i < autores.size(); i++) {
+					addComic(con, autores.get(i), dibuja, libro);// añadimos Comic a la tabla intermedia
 				}
 			}
 			// -....................................BBDD-OUT
 		} while (flag != true);
 		return libro;
+
 	}
 
 	// ------------------------------------------------------------------LIBRO
@@ -700,7 +769,7 @@ public class MetodosAdd {
 		} while (flag != true);
 
 		autor = new Autor(nombre, apellidos, alias, bio);
-		addAut(con, autor);//añado autor a la tabla
+		addAut(con, autor);// añado autor a la tabla
 		return autor;
 	}
 
@@ -729,7 +798,6 @@ public class MetodosAdd {
 
 	// ------------------------------------------------------------------DIBUJANTE
 	public Dibujante addDibujante(Connection con) {
-		Dibujante dibuja = null;
 		String nombre = "", apellidos = "", alias = "", bio = "";
 		boolean flag = false;
 		;
@@ -798,7 +866,7 @@ public class MetodosAdd {
 
 		} while (flag != true);
 
-		dibuja = new Dibujante(nombre, apellidos, alias, bio);
+		Dibujante dibuja = new Dibujante(nombre, apellidos, alias, bio);
 		addDibu(con, dibuja);
 		return dibuja;
 	}
@@ -1147,7 +1215,7 @@ public class MetodosAdd {
 	private void addBalda(Connection con, Ubicacion ub, Estanteria st, Balda bald) {
 		String sql = "INSERT INTO balda(id, numero, ubicacion, estanteria)" + " VALUES(?, ?, ?, ?)";
 		String tabla = "balda";
-		int id = op.contar(con, tabla) + 1;//autor genero un id nuevo
+		int id = op.contar(con, tabla) + 1;// autor genero un id nuevo
 
 		PreparedStatement sentencia;
 		int af;
@@ -1172,7 +1240,7 @@ public class MetodosAdd {
 	private void addToBalda(Connection con, Balda balda, Libro libro) {
 		String tabla = "libro_balda";
 		String sql = "INSERT INTO libro_balda(id, balda, libro) VALUES(?, ?, ?)";
-		int id = op.contar(con, tabla) + 1;//autor genero un id nuevo
+		int id = op.contar(con, tabla) + 1;// autor genero un id nuevo
 
 		PreparedStatement sentencia;
 		int af;
@@ -1193,7 +1261,7 @@ public class MetodosAdd {
 	// ------------------------------------------------------------------COMIC
 	private void addComic(Connection con, Autor autor, Dibujante dibu, Libro libro) {
 		String tabla = "libro_autor_dibujante";
-		int id = op.contar(con, tabla);//auto genero un ID nuevo
+		int id = op.contar(con, tabla)+1;// auto genero un ID nuevo
 		String sql = "INSERT INTO libro_autor_dibujante(id, libro, autor, dibujante) VALUES(?, ?, ?, ?)";
 
 		PreparedStatement sentencia;
@@ -1217,7 +1285,7 @@ public class MetodosAdd {
 	// ------------------------------------------------------------------AUTOR-LIBRO
 	private void addAutoBook(Connection con, Autor autor, Libro libro) {
 		String tabla = "libro_autor";
-		int id = op.contar(con, tabla) + 1;//auto genero un id nuevo
+		int id = op.contar(con, tabla) + 1;// auto genero un id nuevo
 		String sql = "INSERT INTO libro_autor(id, libro, autor) VALUES(?, ?, ?)";
 
 		PreparedStatement sentencia;
