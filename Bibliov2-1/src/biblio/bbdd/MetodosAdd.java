@@ -106,7 +106,7 @@ public class MetodosAdd {
 				do {
 					try {
 						System.out.println("Introduce el alias del Autor:");
-						alias = scan.nextLine();
+						alias = op.toMayus(scan.nextLine());
 						if (alias.equals("")) {
 							flag = false;
 						} else {
@@ -164,7 +164,7 @@ public class MetodosAdd {
 				do {
 					try {
 						System.out.println("Introduce el alias del Dibujante:");
-						aliasD = scan.nextLine();
+						aliasD = op.toMayus(scan.nextLine());
 						if (aliasD.equals("")) {
 							flag = false;
 						} else {
@@ -360,7 +360,7 @@ public class MetodosAdd {
 			do {
 				try {
 					System.out.println("Introduce Género Literario:");
-					genero = scan.nextLine();
+					genero = op.toMayus(scan.nextLine());
 					if (genero.equals("")) {
 						System.out.println("¡No te olvides del Genero!");
 						flag = false;
@@ -386,7 +386,7 @@ public class MetodosAdd {
 			do {
 				try {
 					System.out.println("¿En qué idioma está?");
-					idioma = scan.nextLine();
+					idioma = op.toMayus(scan.nextLine());
 					if (idioma.equals("")) {
 						flag = false;
 					} else {
@@ -433,7 +433,7 @@ public class MetodosAdd {
 				do {
 					try {
 						System.out.println("Introduce donde:");
-						donde = scan.nextLine();
+						donde = op.toMayus(scan.nextLine());
 						if (donde.equals("")) {
 							flag = false;
 						} else {

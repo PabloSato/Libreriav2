@@ -43,6 +43,16 @@ public class OpBbdd {
 		return total;
 
 	}
-	// ------------------------------------------------------------------CONTAR
+	// ------------------------------------------------------------------MAYUSCULAS
+	public String toMayus(String cadena) {
+		String corta = cadena.trim();
+		
+		return corta.toUpperCase().charAt(0) + corta.substring(1, corta.length()).toLowerCase();
+		
+	}
+	public String toMayusPalabra(String cadena) {
+		
+		return "";
+	}
 
 }
