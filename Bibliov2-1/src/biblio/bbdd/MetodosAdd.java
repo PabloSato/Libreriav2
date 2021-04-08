@@ -182,12 +182,10 @@ public class MetodosAdd {
 				if (dibu != null) {
 					System.out.println("Ya tenemos el autor: " + dibu.getAlias());
 					dibuja = dibu;
-					autores.add(dibuja);
 				} else {
 
 					System.out.println("No tenemos ese autor");
 					autor = addDibujante(con);// añadimos a la bbdd
-					autores.add(dibuja);
 				}
 
 			}
@@ -278,7 +276,7 @@ public class MetodosAdd {
 				if (sag != false) {
 					do {
 						try {
-							System.out.println("Introduce el Nombre de la Coleccion:");
+							System.out.println("Introduce el Nombre de la Saga:");
 							sg = scan.nextLine();
 							if (sg.equals("")) {
 								System.out.println("¡No te Olvides del Nombre!");
@@ -589,7 +587,9 @@ public class MetodosAdd {
 			}
 			addToBalda(con, balda, libro);
 			if (comic != false) {
-				addComic(con, autor, dibuja, libro);
+				for(int i = 0; i < autores.size(); i++) {
+					addComic(con, autores.get(i), dibuja, libro);
+				}
 			}
 			// -....................................BBDD-OUT
 		} while (flag != true);
@@ -975,7 +975,7 @@ public class MetodosAdd {
 
 	// ------------------------------------------------------------------TOMO-COL
 	private void addTomCol(Connection con, Coleccion col, Libro libro, Tomo tomo) {
-		String sql = "INSERT INTO colec_volumen(coleccion, libro, numuero) VALUES(?, ?, ?)";
+		String sql = "INSERT INTO colec_volumen(coleccion, libro, numero) VALUES(?, ?, ?)";
 
 		PreparedStatement sentencia;
 		int af;
