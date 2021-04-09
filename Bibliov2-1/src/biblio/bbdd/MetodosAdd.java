@@ -59,7 +59,7 @@ public class MetodosAdd {
 			do {
 				try {
 					System.out.println("Introduce el titulo");
-					titulo = scan.nextLine();
+					titulo = scan.nextLine().trim();
 					if (titulo.equals("")) {
 						System.out.println("¡No te olvides del Titulo!");
 						flag = false;
@@ -106,7 +106,7 @@ public class MetodosAdd {
 				do {
 					try {
 						System.out.println("Introduce el alias del Autor:");
-						alias = op.toMayus(scan.nextLine());
+						alias = op.toMayus(scan.nextLine().trim());
 						if (alias.equals("")) {
 							flag = false;
 						} else {
@@ -134,7 +134,7 @@ public class MetodosAdd {
 				do {
 					try {
 						System.out.println("¿Tiene más autores?(Si/No)");
-						siNo = scan.nextLine();
+						siNo = scan.nextLine().trim();
 						min = siNo.toLowerCase().trim();
 						if (min.equals("")) {
 							System.out.println("¡Conteste si o no!");
@@ -164,7 +164,7 @@ public class MetodosAdd {
 				do {
 					try {
 						System.out.println("Introduce el alias del Dibujante:");
-						aliasD = op.toMayus(scan.nextLine());
+						aliasD = op.toMayus(scan.nextLine().trim());
 						if (aliasD.equals("")) {
 							flag = false;
 						} else {
@@ -219,7 +219,7 @@ public class MetodosAdd {
 				do {
 					try {
 						System.out.println("Introduce el Nombre de la Coleccion:");
-						clc = scan.nextLine();
+						clc = scan.nextLine().trim();
 						if (clc.equals("")) {
 							System.out.println("¡No te Olvides del Nombre!");
 							flag = false;
@@ -249,7 +249,7 @@ public class MetodosAdd {
 				do {
 					try {
 						System.out.println("¿El libro pertenece a alguna Saga?(Si/No)");
-						siNo = scan.nextLine();
+						siNo = scan.nextLine().trim();
 						min = siNo.toLowerCase().trim();
 						if (min.equals("")) {
 							System.out.println("Conteste si o no");
@@ -276,7 +276,7 @@ public class MetodosAdd {
 					do {
 						try {
 							System.out.println("Introduce el Nombre de la Saga:");
-							sg = scan.nextLine();
+							sg = scan.nextLine().trim();
 							if (sg.equals("")) {
 								System.out.println("¡No te Olvides del Nombre!");
 								flag = false;
@@ -309,7 +309,7 @@ public class MetodosAdd {
 					do {
 						try {
 							System.out.println("Introduce número");
-							tom = Integer.parseInt(scan.nextLine());
+							tom = Integer.parseInt(scan.nextLine().trim());
 							if (tom < 0) {
 								System.out.println("Introduce numero superiores a 0");
 								flag = false;
@@ -390,7 +390,7 @@ public class MetodosAdd {
 					do {
 						try {
 							System.out.println("Introduce número");
-							tom = Integer.parseInt(scan.nextLine());
+							tom = Integer.parseInt(scan.nextLine().trim());
 							if (tom < 0) {
 								System.out.println("Introduce numero superiores a 0");
 								flag = false;
@@ -476,7 +476,7 @@ public class MetodosAdd {
 			do {
 				try {
 					System.out.println("¿Cuantas páginas tiene?");
-					paginas = Integer.parseInt(scan.nextLine());
+					paginas = Integer.parseInt(scan.nextLine().trim());
 					if (paginas > 0) {
 						flag = true;
 					} else {
@@ -495,7 +495,7 @@ public class MetodosAdd {
 				do {
 					try {
 						System.out.println("Introduce donde:");
-						donde = op.toMayus(scan.nextLine());
+						donde = op.toMayus(scan.nextLine().trim());
 						if (donde.equals("")) {
 							flag = false;
 						} else {
@@ -524,7 +524,7 @@ public class MetodosAdd {
 				do {
 					try {
 						System.out.println("Introduce la Estanteria");
-						stant = scan.nextLine();
+						stant = scan.nextLine().trim();
 						if (stant.equals("")) {
 							System.out.println("¡No te olvides de la Estanteria!");
 							flag = false;
@@ -556,7 +556,7 @@ public class MetodosAdd {
 				do {
 					try {
 						System.out.println("Introduce el numero de Balda");
-						bald = Integer.parseInt(scan.nextLine());
+						bald = Integer.parseInt(scan.nextLine().trim());
 						if (bald <= 0) {
 							System.out.println("Introduce valores superiores a 0");
 							flag = false;
@@ -585,7 +585,7 @@ public class MetodosAdd {
 			do {
 				try {
 					System.out.println("¿Te lo has leido ya?");
-					siNo = scan.nextLine();
+					siNo = scan.nextLine().trim();
 					if (siNo.equals("")) {
 						flag = false;
 					} else {
@@ -652,7 +652,7 @@ public class MetodosAdd {
 					addTomCol(con, col, libro, tomoCol);// añadimos tmo a a Coleccin
 				}
 			}
-			addToBalda(con, balda, libro);// añadimos libro a la Balda
+			addToBalda(con, libro, balda, st, ub);// añadimos libro a la Balda
 			if (comic != false) {
 				for (int i = 0; i < autores.size(); i++) {
 					addComic(con, autores.get(i), dibuja, libro);// añadimos Comic a la tabla intermedia
@@ -1235,9 +1235,9 @@ public class MetodosAdd {
 	}
 
 	// ------------------------------------------------------------------BALDA
-	private void addToBalda(Connection con, Balda balda, Libro libro) {
+	private void addToBalda(Connection con, Libro libro, Balda balda, Estanteria st, Ubicacion ub) {
 		String tabla = "libro_balda";
-		String sql = "INSERT INTO libro_balda(balda, libro) VALUES(?, ?)";
+		String sql = "INSERT INTO libro_balda(libro, balda, estanteria, ubicacion) VALUES(?, ?, ?, ?)";
 		int id = op.contar(con, tabla) + 1;// autor genero un id nuevo
 
 		PreparedStatement sentencia;
@@ -1245,8 +1245,10 @@ public class MetodosAdd {
 		try {
 			sentencia = con.prepareStatement(sql);
 			//sentencia.setInt(1, id);
-			sentencia.setInt(1, balda.getNumero());
-			sentencia.setString(2, libro.getTitulo());
+			sentencia.setString(1, libro.getTitulo());;
+			sentencia.setInt(2, balda.getNumero());
+			sentencia.setString(3, st.getNombre());
+			sentencia.setString(4, ub.getNombre());
 			af = sentencia.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println("Error al insertar Libro a la balda");

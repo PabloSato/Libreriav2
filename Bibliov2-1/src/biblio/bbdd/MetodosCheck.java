@@ -307,7 +307,7 @@ public class MetodosCheck {
 				System.out.print(" ");
 				System.out.println();
 
-				col = new Coleccion(nombre);
+				col = new Coleccion(name);
 
 			}
 
